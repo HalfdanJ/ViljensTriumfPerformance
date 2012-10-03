@@ -1,3 +1,6 @@
 [submodule "ofxCocoaPlugins"]
 	path = ofxCocoaPlugins
 	url = git@github.com:HalfdanJ/ofxCocoaPlugins.git
+[submodule "libs/ofxBlackMagic"]
+	path = libs/ofxBlackMagic
+	url = git@github.com:HalfdanJ/ofxBlackmagic.git

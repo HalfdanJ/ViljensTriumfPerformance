@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import "Test.h"
+#import "BlackMagic.h"
 
 @implementation AppDelegate
 
@@ -22,18 +22,14 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     ocp = [[ofxCocoaPlugins alloc] initWithAppDelegate:self];
-    [ocp setNumberOutputviews:2];
+    [ocp setNumberOutputviews:1];
     [ocp addHeader:@"Setup"];
     [ocp addPlugin:[[Keystoner alloc] initWithSurfaces:[NSArray arrayWithObjects:@"Floor", @"Wall", nil]] midiChannel:1];
-    [ocp addPlugin:[[Cameras alloc] initWithNumberCameras:1] midiChannel:1];
-    [ocp addPlugin:[[CameraCalibration alloc] init] midiChannel:1];
-    [ocp addPlugin:[[BlobTracker2d alloc] init] midiChannel:2];
-    [ocp addPlugin:[[Tracker alloc] init] midiChannel:2];
     [ocp addPlugin:[[Midi alloc] init] midiChannel:2];
 //    [ocp addPlugin:[[OSCControl alloc] init] midiChannel:3];
     
     [ocp addHeader:@"DEW"];
-    [ocp addPlugin:[[Test alloc] init] midiChannel:12];
+    [ocp addPlugin:[[BlackMagic alloc] init] midiChannel:12];
 
     [ocp loadPlugins];
 

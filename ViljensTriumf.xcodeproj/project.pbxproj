@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8429C0DD156A7943000ADD56 /* Test.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8429C0DB156A7943000ADD56 /* Test.mm */; };
-		8429C0DE156A7943000ADD56 /* Test.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8429C0DC156A7943000ADD56 /* Test.xib */; };
+		8429C0DD156A7943000ADD56 /* BlackMagic.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8429C0DB156A7943000ADD56 /* BlackMagic.mm */; };
+		8429C0DE156A7943000ADD56 /* BlackMagic.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8429C0DC156A7943000ADD56 /* BlackMagic.xib */; };
 		845FB20D1520A77400FAB093 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 845FB20C1520A77400FAB093 /* OpenGL.framework */; };
 		84A64CB3152492B3004B2050 /* ofxCocoaPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A64CB2152492B3004B2050 /* ofxCocoaPlugins.framework */; };
 		84A64CB5152492C2004B2050 /* ofxCocoaPlugins.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 84A64CB2152492B3004B2050 /* ofxCocoaPlugins.framework */; };
@@ -18,6 +18,8 @@
 		84AFDC1B15209A0A00DB5DEF /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84AFDC1A15209A0A00DB5DEF /* AppDelegate.mm */; };
 		84AFDC1E15209A0A00DB5DEF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84AFDC1C15209A0A00DB5DEF /* MainMenu.xib */; };
 		84AFDC2D15209B3400DB5DEF /* Project.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 84AFDC2C15209B3400DB5DEF /* Project.xcconfig */; };
+		DD03972C161C4F9000D0D629 /* DeckLinkAPIDispatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD039725161C4F9000D0D629 /* DeckLinkAPIDispatch.cpp */; };
+		DD039737161C591400D0D629 /* DecklinkCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD039736161C591400D0D629 /* DecklinkCallback.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,9 +36,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8429C0DA156A7943000ADD56 /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
-		8429C0DB156A7943000ADD56 /* Test.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Test.mm; sourceTree = "<group>"; };
-		8429C0DC156A7943000ADD56 /* Test.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Test.xib; sourceTree = "<group>"; };
+		8429C0DA156A7943000ADD56 /* BlackMagic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackMagic.h; sourceTree = "<group>"; };
+		8429C0DB156A7943000ADD56 /* BlackMagic.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BlackMagic.mm; sourceTree = "<group>"; };
+		8429C0DC156A7943000ADD56 /* BlackMagic.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlackMagic.xib; sourceTree = "<group>"; };
 		845FB20C1520A77400FAB093 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		84A64CB2152492B3004B2050 /* ofxCocoaPlugins.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ofxCocoaPlugins.framework; path = ofxCocoaPlugins/build/Debug/ofxCocoaPlugins.framework; sourceTree = "<group>"; };
 		84AFDC0315209A0A00DB5DEF /* ViljensTriumf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViljensTriumf.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +54,10 @@
 		84AFDC1A15209A0A00DB5DEF /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		84AFDC1D15209A0A00DB5DEF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		84AFDC2C15209B3400DB5DEF /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
+		DD03971A161C4F9000D0D629 /* DeckLinkAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI.h; sourceTree = "<group>"; };
+		DD039725161C4F9000D0D629 /* DeckLinkAPIDispatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeckLinkAPIDispatch.cpp; sourceTree = "<group>"; };
+		DD039735161C591400D0D629 /* DecklinkCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecklinkCallback.h; sourceTree = "<group>"; };
+		DD039736161C591400D0D629 /* DecklinkCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DecklinkCallback.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,9 +77,7 @@
 		8483C6691521C0E5006090CF /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				8429C0DA156A7943000ADD56 /* Test.h */,
-				8429C0DB156A7943000ADD56 /* Test.mm */,
-				8429C0DC156A7943000ADD56 /* Test.xib */,
+				DD039731161C4FE000D0D629 /* BlackMagic */,
 			);
 			name = Plugins;
 			path = ViljensTriumf/Plugins;
@@ -157,6 +161,29 @@
 			path = Addons;
 			sourceTree = "<group>";
 		};
+		DD039719161C4F9000D0D629 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				DD03971A161C4F9000D0D629 /* DeckLinkAPI.h */,
+				DD039725161C4F9000D0D629 /* DeckLinkAPIDispatch.cpp */,
+			);
+			name = include;
+			path = "libs/Blackmagic DeckLink SDK 9.6.4/Mac/include";
+			sourceTree = SOURCE_ROOT;
+		};
+		DD039731161C4FE000D0D629 /* BlackMagic */ = {
+			isa = PBXGroup;
+			children = (
+				DD039719161C4F9000D0D629 /* include */,
+				8429C0DA156A7943000ADD56 /* BlackMagic.h */,
+				8429C0DB156A7943000ADD56 /* BlackMagic.mm */,
+				DD039735161C591400D0D629 /* DecklinkCallback.h */,
+				DD039736161C591400D0D629 /* DecklinkCallback.cpp */,
+				8429C0DC156A7943000ADD56 /* BlackMagic.xib */,
+			);
+			name = BlackMagic;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -211,7 +238,7 @@
 				84AFDC1215209A0A00DB5DEF /* InfoPlist.strings in Resources */,
 				84AFDC1E15209A0A00DB5DEF /* MainMenu.xib in Resources */,
 				84AFDC2D15209B3400DB5DEF /* Project.xcconfig in Resources */,
-				8429C0DE156A7943000ADD56 /* Test.xib in Resources */,
+				8429C0DE156A7943000ADD56 /* BlackMagic.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,7 +251,9 @@
 			files = (
 				84AFDC1415209A0A00DB5DEF /* main.m in Sources */,
 				84AFDC1B15209A0A00DB5DEF /* AppDelegate.mm in Sources */,
-				8429C0DD156A7943000ADD56 /* Test.mm in Sources */,
+				8429C0DD156A7943000ADD56 /* BlackMagic.mm in Sources */,
+				DD03972C161C4F9000D0D629 /* DeckLinkAPIDispatch.cpp in Sources */,
+				DD039737161C591400D0D629 /* DecklinkCallback.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,7 +335,7 @@
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/DEW-ezvputjuauvbykashinnkcobfngm/Build/Products/Debug\"",
 					"\"$(SRCROOT)/ofxCocoaPlugins/build/Debug\"",
 				);
-				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (

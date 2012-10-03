@@ -1,6 +1,6 @@
 #import "BlackMagic.h"
 #import <ofxCocoaPlugins/Keystoner.h>
-
+#import "ofxShader.h"
 
 @implementation BlackMagic
 
@@ -146,7 +146,7 @@
 
 
 -(void)update:(NSDictionary *)drawingInformation{
-    for(int i=0;i<2;i++){
+    for(int i=0;i<3;i++){
         if(callbacks[i]->newFrame){
             callbacks[i]->newFrame = false;
             int w = callbacks[i]->w;
@@ -167,19 +167,69 @@
 //----------------
 //
 
--(void)draw:(NSDictionary *)drawingInformation{
+-(void) render{
     ofFill();
+    ofSetColor(255, 255, 255);
+    if(outSelector == 0){
+        ofSetColor(0, 0, 0);
+        ofRect(0, 0, 1, 1);
+    }
+    if(outSelector > 0 && outSelector <= 3){
+        currentFrames[outSelector-1].draw(0,0,1,1);
+    }
+}
+
+-(void)draw:(NSDictionary *)drawingInformation{
+
     
-    ofSetColor(255,255,255);
-    currentFrames[0].draw(0,0,1,1);
-    //currentFrames[1].draw(0,0,0.5,1);
+ //   shader->begin();
+    [self render];
+    
+ //   shader->end();
+
 }
 
 //
 //----------------
 //
 
--(void)controlDraw:(NSDictionary *)drawingInformation{    
+-(void)controlDraw:(NSDictionary *)drawingInformation{
+    ofBackground(255, 255, 255);
+    float w = ofGetWidth();
+    float h = ofGetHeight();
+    
+    float mW = w/3.0;
+    float mH = mW * 3.0/4.0;
+ 
+    for(int i=0;i<3;i++){
+        currentFrames[i].draw(i*mW,0,mW,mH);
+    }
+
+    ofTranslate(0,mH+30);
+    ofScale(mW*3,mH*3);
+    [self render];
+
 }
 
+-(void)controlKeyPressed:(int)key modifier:(int)modifier{
+//    NSLog(@"%i",key);
+    switch (key) {
+        case 82:
+            outSelector = 0;
+            break;
+
+        case 83:
+            outSelector = 1;
+            break;
+        case 84:
+            outSelector = 2;
+            break;
+        case 85:
+            outSelector = 3;
+            break;
+            
+        default:
+            break;
+    }
+}
 @end

@@ -14,6 +14,10 @@ class DeckLinkController;
     DecklinkCallback * callbacks[3];
     
     ofImage currentFrames[3];
+    
+    int outSelector;
+    
+//    ofImage
 }
 
 @end

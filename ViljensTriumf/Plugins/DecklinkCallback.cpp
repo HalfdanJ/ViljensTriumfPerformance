@@ -219,17 +219,18 @@ HRESULT 	DecklinkCallback::VideoInputFrameArrived (/* in */ IDeckLinkVideoInputF
 {
     BMDPixelFormat pixelFormat = videoFrame->GetPixelFormat();
     
-  //  printf("%i\n",this);
     
     
     w = videoFrame->GetWidth();
     h = videoFrame->GetHeight();
     size = w * h * 3;
+
     
     if(bytes){
         delete bytes;
     }
     bytes = YuvToRgb(videoFrame);
+    
     
     newFrame = true;
     

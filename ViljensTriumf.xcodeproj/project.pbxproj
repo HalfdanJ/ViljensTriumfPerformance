@@ -1,0 +1,375 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8429C0DD156A7943000ADD56 /* Test.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8429C0DB156A7943000ADD56 /* Test.mm */; };
+		8429C0DE156A7943000ADD56 /* Test.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8429C0DC156A7943000ADD56 /* Test.xib */; };
+		845FB20D1520A77400FAB093 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 845FB20C1520A77400FAB093 /* OpenGL.framework */; };
+		84A64CB3152492B3004B2050 /* ofxCocoaPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A64CB2152492B3004B2050 /* ofxCocoaPlugins.framework */; };
+		84A64CB5152492C2004B2050 /* ofxCocoaPlugins.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 84A64CB2152492B3004B2050 /* ofxCocoaPlugins.framework */; };
+		84AFDC0815209A0A00DB5DEF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84AFDC0715209A0A00DB5DEF /* Cocoa.framework */; };
+		84AFDC1215209A0A00DB5DEF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84AFDC1015209A0A00DB5DEF /* InfoPlist.strings */; };
+		84AFDC1415209A0A00DB5DEF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AFDC1315209A0A00DB5DEF /* main.m */; };
+		84AFDC1B15209A0A00DB5DEF /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84AFDC1A15209A0A00DB5DEF /* AppDelegate.mm */; };
+		84AFDC1E15209A0A00DB5DEF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84AFDC1C15209A0A00DB5DEF /* MainMenu.xib */; };
+		84AFDC2D15209B3400DB5DEF /* Project.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 84AFDC2C15209B3400DB5DEF /* Project.xcconfig */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		845FB20E1520AB7500FAB093 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				84A64CB5152492C2004B2050 /* ofxCocoaPlugins.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8429C0DA156A7943000ADD56 /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
+		8429C0DB156A7943000ADD56 /* Test.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Test.mm; sourceTree = "<group>"; };
+		8429C0DC156A7943000ADD56 /* Test.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Test.xib; sourceTree = "<group>"; };
+		845FB20C1520A77400FAB093 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		84A64CB2152492B3004B2050 /* ofxCocoaPlugins.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ofxCocoaPlugins.framework; path = ofxCocoaPlugins/build/Debug/ofxCocoaPlugins.framework; sourceTree = "<group>"; };
+		84AFDC0315209A0A00DB5DEF /* ViljensTriumf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViljensTriumf.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84AFDC0715209A0A00DB5DEF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		84AFDC0A15209A0A00DB5DEF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		84AFDC0B15209A0A00DB5DEF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		84AFDC0C15209A0A00DB5DEF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		84AFDC0F15209A0A00DB5DEF /* ViljensTriumf-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ViljensTriumf-Info.plist"; sourceTree = "<group>"; };
+		84AFDC1115209A0A00DB5DEF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		84AFDC1315209A0A00DB5DEF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		84AFDC1515209A0A00DB5DEF /* DEW-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DEW-Prefix.pch"; sourceTree = "<group>"; };
+		84AFDC1915209A0A00DB5DEF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		84AFDC1A15209A0A00DB5DEF /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		84AFDC1D15209A0A00DB5DEF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		84AFDC2C15209B3400DB5DEF /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		84AFDC0015209A0A00DB5DEF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				845FB20D1520A77400FAB093 /* OpenGL.framework in Frameworks */,
+				84AFDC0815209A0A00DB5DEF /* Cocoa.framework in Frameworks */,
+				84A64CB3152492B3004B2050 /* ofxCocoaPlugins.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8483C6691521C0E5006090CF /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				8429C0DA156A7943000ADD56 /* Test.h */,
+				8429C0DB156A7943000ADD56 /* Test.mm */,
+				8429C0DC156A7943000ADD56 /* Test.xib */,
+			);
+			name = Plugins;
+			path = ViljensTriumf/Plugins;
+			sourceTree = "<group>";
+		};
+		84AFDBF815209A0A00DB5DEF = {
+			isa = PBXGroup;
+			children = (
+				84DF2EE315385C49001F3C62 /* Assets */,
+				84A64CB2152492B3004B2050 /* ofxCocoaPlugins.framework */,
+				84AFDC2C15209B3400DB5DEF /* Project.xcconfig */,
+				84EA19EA1521C6E600F91FC8 /* Addons */,
+				8483C6691521C0E5006090CF /* Plugins */,
+				84AFDC0D15209A0A00DB5DEF /* ViljensTriumf */,
+				84AFDC0615209A0A00DB5DEF /* Frameworks */,
+				84AFDC0415209A0A00DB5DEF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		84AFDC0415209A0A00DB5DEF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84AFDC0315209A0A00DB5DEF /* ViljensTriumf.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84AFDC0615209A0A00DB5DEF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				845FB20C1520A77400FAB093 /* OpenGL.framework */,
+				84AFDC0715209A0A00DB5DEF /* Cocoa.framework */,
+				84AFDC0915209A0A00DB5DEF /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		84AFDC0915209A0A00DB5DEF /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				84AFDC0A15209A0A00DB5DEF /* AppKit.framework */,
+				84AFDC0B15209A0A00DB5DEF /* CoreData.framework */,
+				84AFDC0C15209A0A00DB5DEF /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		84AFDC0D15209A0A00DB5DEF /* ViljensTriumf */ = {
+			isa = PBXGroup;
+			children = (
+				84AFDC1915209A0A00DB5DEF /* AppDelegate.h */,
+				84AFDC1A15209A0A00DB5DEF /* AppDelegate.mm */,
+				84AFDC1C15209A0A00DB5DEF /* MainMenu.xib */,
+				84AFDC0E15209A0A00DB5DEF /* Supporting Files */,
+			);
+			path = ViljensTriumf;
+			sourceTree = "<group>";
+		};
+		84AFDC0E15209A0A00DB5DEF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				84AFDC0F15209A0A00DB5DEF /* ViljensTriumf-Info.plist */,
+				84AFDC1015209A0A00DB5DEF /* InfoPlist.strings */,
+				84AFDC1315209A0A00DB5DEF /* main.m */,
+				84AFDC1515209A0A00DB5DEF /* DEW-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		84DF2EE315385C49001F3C62 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		84EA19EA1521C6E600F91FC8 /* Addons */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Addons;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		84AFDC0215209A0A00DB5DEF /* ViljensTriumf */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84AFDC2115209A0A00DB5DEF /* Build configuration list for PBXNativeTarget "ViljensTriumf" */;
+			buildPhases = (
+				84AFDBFF15209A0A00DB5DEF /* Sources */,
+				84AFDC0015209A0A00DB5DEF /* Frameworks */,
+				84AFDC0115209A0A00DB5DEF /* Resources */,
+				845FB20E1520AB7500FAB093 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ViljensTriumf;
+			productName = DEW;
+			productReference = 84AFDC0315209A0A00DB5DEF /* ViljensTriumf.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		84AFDBFA15209A0A00DB5DEF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 84AFDBFD15209A0A00DB5DEF /* Build configuration list for PBXProject "ViljensTriumf" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 84AFDBF815209A0A00DB5DEF;
+			productRefGroup = 84AFDC0415209A0A00DB5DEF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				84AFDC0215209A0A00DB5DEF /* ViljensTriumf */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		84AFDC0115209A0A00DB5DEF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84AFDC1215209A0A00DB5DEF /* InfoPlist.strings in Resources */,
+				84AFDC1E15209A0A00DB5DEF /* MainMenu.xib in Resources */,
+				84AFDC2D15209B3400DB5DEF /* Project.xcconfig in Resources */,
+				8429C0DE156A7943000ADD56 /* Test.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		84AFDBFF15209A0A00DB5DEF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84AFDC1415209A0A00DB5DEF /* main.m in Sources */,
+				84AFDC1B15209A0A00DB5DEF /* AppDelegate.mm in Sources */,
+				8429C0DD156A7943000ADD56 /* Test.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		84AFDC1015209A0A00DB5DEF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84AFDC1115209A0A00DB5DEF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		84AFDC1C15209A0A00DB5DEF /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84AFDC1D15209A0A00DB5DEF /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		84AFDC1F15209A0A00DB5DEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84AFDC2C15209B3400DB5DEF /* Project.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		84AFDC2015209A0A00DB5DEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84AFDC2C15209B3400DB5DEF /* Project.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		84AFDC2215209A0A00DB5DEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/DEW-ezvputjuauvbykashinnkcobfngm/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/DEW-ezvputjuauvbykashinnkcobfngm/Build/Products/Debug\"",
+					"\"$(SRCROOT)/ofxCocoaPlugins/build/Debug\"",
+				);
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"MSA_HOST_OPENFRAMEWORKS=1",
+				);
+				INFOPLIST_FILE = "ViljensTriumf/ViljensTriumf-Info.plist";
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"$(OF_CORE_LIBS)",
+				);
+				PRODUCT_NAME = ViljensTriumf;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		84AFDC2315209A0A00DB5DEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/DEW-ezvputjuauvbykashinnkcobfngm/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/DEW-ezvputjuauvbykashinnkcobfngm/Build/Products/Debug\"",
+					"\"$(SRCROOT)/ofxCocoaPlugins/build/Debug\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "MSA_HOST_OPENFRAMEWORKS=1";
+				INFOPLIST_FILE = "ViljensTriumf/ViljensTriumf-Info.plist";
+				OTHER_LDFLAGS = (
+					"-Wl,-search_paths_first",
+					"-Wl,-headerpad_max_install_names",
+					"$(OF_CORE_LIBS)",
+				);
+				PRODUCT_NAME = ViljensTriumf;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		84AFDBFD15209A0A00DB5DEF /* Build configuration list for PBXProject "ViljensTriumf" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84AFDC1F15209A0A00DB5DEF /* Debug */,
+				84AFDC2015209A0A00DB5DEF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84AFDC2115209A0A00DB5DEF /* Build configuration list for PBXNativeTarget "ViljensTriumf" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84AFDC2215209A0A00DB5DEF /* Debug */,
+				84AFDC2315209A0A00DB5DEF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 84AFDBFA15209A0A00DB5DEF /* Project object */;
+}

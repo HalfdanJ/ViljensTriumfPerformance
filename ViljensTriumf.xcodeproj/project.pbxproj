@@ -28,7 +28,8 @@
 		DD4CC1EC161DEA13000E459D /* deinterlace.frag in Sources */ = {isa = PBXBuildFile; fileRef = DD4CC1E6161DEA13000E459D /* deinterlace.frag */; };
 		DD4CC1ED161DEA13000E459D /* deinterlace.vert in Sources */ = {isa = PBXBuildFile; fileRef = DD4CC1E7161DEA13000E459D /* deinterlace.vert */; };
 		DD4CC1EF161DF194000E459D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4CC1EE161DF194000E459D /* QuartzCore.framework */; };
-		DD4CC1F1161DF6D3000E459D /* deinterlaceFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = DD4CC1F0161DF6D3000E459D /* deinterlaceFilter.cikernel */; };
+		DDDCF65F161EBC0700E8E368 /* DeinterlaceFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDCF65E161EBC0700E8E368 /* DeinterlaceFilter.m */; };
+		DDDCF661161EBC1700E8E368 /* deinterlaceFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = DDDCF660161EBC1700E8E368 /* deinterlaceFilter.cikernel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -76,9 +77,11 @@
 		DD4CC1E6161DEA13000E459D /* deinterlace.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = deinterlace.frag; path = shaders/deinterlace.frag; sourceTree = "<group>"; };
 		DD4CC1E7161DEA13000E459D /* deinterlace.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = deinterlace.vert; path = shaders/deinterlace.vert; sourceTree = "<group>"; };
 		DD4CC1EE161DF194000E459D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		DD4CC1F0161DF6D3000E459D /* deinterlaceFilter.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = deinterlaceFilter.cikernel; sourceTree = "<group>"; };
 		DDDCF659161EB93500E8E368 /* BlackMagicController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlackMagicController.h; sourceTree = "<group>"; };
 		DDDCF65A161EB93500E8E368 /* BlackMagicController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BlackMagicController.mm; sourceTree = "<group>"; };
+		DDDCF65D161EBC0700E8E368 /* DeinterlaceFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeinterlaceFilter.h; sourceTree = "<group>"; };
+		DDDCF65E161EBC0700E8E368 /* DeinterlaceFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeinterlaceFilter.m; sourceTree = "<group>"; };
+		DDDCF660161EBC1700E8E368 /* deinterlaceFilter.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = deinterlaceFilter.cikernel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +201,7 @@
 		DD039731161C4FE000D0D629 /* BlackMagic */ = {
 			isa = PBXGroup;
 			children = (
+				DDDCF65C161EBBF900E8E368 /* filters */,
 				DDDCF659161EB93500E8E368 /* BlackMagicController.h */,
 				DDDCF65A161EB93500E8E368 /* BlackMagicController.mm */,
 				DD039719161C4F9000D0D629 /* include */,
@@ -220,7 +224,6 @@
 				DD4CC1E5161DEA13000E459D /* colorCorrectShader.vert */,
 				DD4CC1E6161DEA13000E459D /* deinterlace.frag */,
 				DD4CC1E7161DEA13000E459D /* deinterlace.vert */,
-				DD4CC1F0161DF6D3000E459D /* deinterlaceFilter.cikernel */,
 			);
 			name = shaders;
 			sourceTree = "<group>";
@@ -234,6 +237,16 @@
 			name = ofxShader;
 			path = ViljensTriumf/ofxShader;
 			sourceTree = SOURCE_ROOT;
+		};
+		DDDCF65C161EBBF900E8E368 /* filters */ = {
+			isa = PBXGroup;
+			children = (
+				DDDCF660161EBC1700E8E368 /* deinterlaceFilter.cikernel */,
+				DDDCF65D161EBC0700E8E368 /* DeinterlaceFilter.h */,
+				DDDCF65E161EBC0700E8E368 /* DeinterlaceFilter.m */,
+			);
+			path = filters;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -290,7 +303,7 @@
 				84AFDC1E15209A0A00DB5DEF /* MainMenu.xib in Resources */,
 				84AFDC2D15209B3400DB5DEF /* Project.xcconfig in Resources */,
 				8429C0DE156A7943000ADD56 /* BlackMagic.xib in Resources */,
-				DD4CC1F1161DF6D3000E459D /* deinterlaceFilter.cikernel in Resources */,
+				DDDCF661161EBC1700E8E368 /* deinterlaceFilter.cikernel in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +326,7 @@
 				DD4CC1EB161DEA13000E459D /* colorCorrectShader.vert in Sources */,
 				DD4CC1EC161DEA13000E459D /* deinterlace.frag in Sources */,
 				DD4CC1ED161DEA13000E459D /* deinterlace.vert in Sources */,
+				DDDCF65F161EBC0700E8E368 /* DeinterlaceFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

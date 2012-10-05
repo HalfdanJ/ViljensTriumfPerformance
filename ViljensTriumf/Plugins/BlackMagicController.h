@@ -17,6 +17,9 @@
     
     IDeckLinkInput  *  deckLinkInputs[3];
     DecklinkCallback * callbacks[3];
+    
+@public
+    IDeckLinkGLScreenPreviewHelper* glhelper;
 
 }
 

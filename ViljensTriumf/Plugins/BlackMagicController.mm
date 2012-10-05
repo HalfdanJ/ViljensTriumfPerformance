@@ -36,6 +36,8 @@
             
         }
         
+        glhelper = CreateOpenGLScreenPreviewHelper();
+        
         for(int index=0;index<deviceList.size();index++){
             // Get the IDeckLinkInput for the selected device
             if ((deviceList[index]->QueryInterface(IID_IDeckLinkInput, (void**)&deckLinkInputs[index]) != S_OK))

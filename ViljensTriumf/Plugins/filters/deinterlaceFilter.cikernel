@@ -22,13 +22,14 @@ kernel vec4 v002SimpleDeinterlace(sampler image)
    // our odd sampling
    vec4 oddevenfield = sample(image, vec2(texcoord0.x, texcoord0.y + 1.0)); 
    vec4 oddoddfield = sample(image, texcoord0); 
-   vec4 oddresult = mix(oddevenfield, oddoddfield, 0.5); 
+   vec4 oddresult = mix(oddevenfield, oddoddfield, 0.5);
 
    // our even sampling
-   vec4 evenevenfield = sample(image, texcoord0); 
+ /*  vec4 evenevenfield = sample(image, texcoord0);
    vec4 evenoddfield = sample(image, vec2(texcoord0.x, texcoord0.y - 1.0)); 
    vec4 evenresult = mix(evenevenfield, evenoddfield, 0.5); 
-
+*/
    // final output
-   return mix(oddresult, evenresult, isodd);
+   return oddresult;
+  // return mix(oddresult, evenresult, isodd);
 }

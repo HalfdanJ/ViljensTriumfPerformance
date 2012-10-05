@@ -33,8 +33,10 @@ class DeckLinkController;
     CIContext * ciContext; //Dynamic switched context (main/control)
     
     CIFilter * blurFilter;
-    CIFilter * deinterlaceFilter;
-
+    DeinterlaceFilter * deinterlaceFilter;
+    CIFilter * colorControlsFilter;
+    CIFilter * gammaAdjustFilter;
+    CIFilter * toneCurveFilter;
 }
 
 @end

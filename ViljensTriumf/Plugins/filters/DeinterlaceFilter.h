@@ -6,9 +6,11 @@
 //
 //
 
-#import <CoreImage/CoreImage.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface DeinterlaceFilter : CIFilter{
-    CIImage   *inputImage;
+    CIImage   * _inputImage;
 }
+
+@property (strong) CIImage   *inputImage;
 @end

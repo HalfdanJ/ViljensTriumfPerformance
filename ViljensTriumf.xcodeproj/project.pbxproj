@@ -30,6 +30,7 @@
 		DD4CC1EF161DF194000E459D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4CC1EE161DF194000E459D /* QuartzCore.framework */; };
 		DDDCF65F161EBC0700E8E368 /* DeinterlaceFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDCF65E161EBC0700E8E368 /* DeinterlaceFilter.m */; };
 		DDDCF661161EBC1700E8E368 /* deinterlaceFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = DDDCF660161EBC1700E8E368 /* deinterlaceFilter.cikernel */; };
+		DDE64735161EC97E0007E490 /* BlackMagicController.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDDCF65A161EB93500E8E368 /* BlackMagicController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -201,12 +202,12 @@
 		DD039731161C4FE000D0D629 /* BlackMagic */ = {
 			isa = PBXGroup;
 			children = (
+				8429C0DA156A7943000ADD56 /* BlackMagic.h */,
+				8429C0DB156A7943000ADD56 /* BlackMagic.mm */,
 				DDDCF65C161EBBF900E8E368 /* filters */,
 				DDDCF659161EB93500E8E368 /* BlackMagicController.h */,
 				DDDCF65A161EB93500E8E368 /* BlackMagicController.mm */,
 				DD039719161C4F9000D0D629 /* include */,
-				8429C0DA156A7943000ADD56 /* BlackMagic.h */,
-				8429C0DB156A7943000ADD56 /* BlackMagic.mm */,
 				DD039735161C591400D0D629 /* DecklinkCallback.h */,
 				DD039736161C591400D0D629 /* DecklinkCallback.mm */,
 				8429C0DC156A7943000ADD56 /* BlackMagic.xib */,
@@ -324,6 +325,7 @@
 				DD4CC1E9161DEA13000E459D /* bwShader.vert in Sources */,
 				DD4CC1EA161DEA13000E459D /* colorCorrectShader.frag in Sources */,
 				DD4CC1EB161DEA13000E459D /* colorCorrectShader.vert in Sources */,
+				DDE64735161EC97E0007E490 /* BlackMagicController.mm in Sources */,
 				DD4CC1EC161DEA13000E459D /* deinterlace.frag in Sources */,
 				DD4CC1ED161DEA13000E459D /* deinterlace.vert in Sources */,
 				DDDCF65F161EBC0700E8E368 /* DeinterlaceFilter.m in Sources */,

@@ -5,9 +5,21 @@
 @implementation BlackMagic
 
 -(void)initPlugin{
-    [self addPropF:@"min"];
-    [self addPropF:@"max"];
-    [self addPropF:@"blur"];
+    [self addPropF:@"saturation"];
+    [self addPropF:@"brightness"];
+    [[self addPropF:@"contrast"] setMaxValue:1.5];
+
+    [[self addPropF:@"gamma"] setMaxValue:1.5];
+
+/*[self addPropF:@"curvep1"];
+    [self addPropF:@"curvep2"];
+    [self addPropF:@"curvep3"];
+    [self addPropF:@"curvep4"];
+    [self addPropF:@"curvep5"];*/
+
+    
+    //    [self addPropF:@"blur"];
+    [self addPropB:@"deinterlace"];
 
     
     blackMagicController = [[BlackMagicController alloc] init];
@@ -40,16 +52,19 @@
     
     blurFilter = [[CIFilter filterWithName:@"CIGaussianBlur"] retain];
     [blurFilter setDefaults];
+
     
-    NSBundle    *bundle = [NSBundle bundleForClass: [self class]];// 2
-    NSString    *code = [NSString stringWithContentsOfFile: [bundle// 3
-                                                             pathForResource: @"deinterlaceFilter"
-                                                             ofType: @"cikernel"]];
-    NSArray     *kernels = [CIKernel kernelsWithString: code];// 4
-    hazeRemovalKernel = [kernels objectAtIndex:0];
+    colorControlsFilter = [[CIFilter filterWithName:@"CIColorControls"] retain];
+    [colorControlsFilter setDefaults];
+
+    gammaAdjustFilter = [[CIFilter filterWithName:@"CIGammaAdjust"] retain];
+    [gammaAdjustFilter setDefaults];
     
-    deinterlaceFilter = [CIFilter fil]
+    toneCurveFilter = [[CIFilter filterWithName:@"CIToneCurve"] retain];
+    [toneCurveFilter setDefaults];
     
+    deinterlaceFilter = [[DeinterlaceFilter alloc] init];
+    [deinterlaceFilter setDefaults];
     
     CGLContextObj  contextGl = CGLContextObj([[[[[globalController viewManager] glViews] objectAtIndex:0] openGLContext] CGLContextObj]);
 	CGLPixelFormatObj pixelformatGl = CGLPixelFormatObj([[[[[globalController viewManager] glViews] objectAtIndex:0] pixelFormat] CGLPixelFormatObj]);
@@ -91,7 +106,7 @@
     for(int i=0;i<3;i++){
         DecklinkCallback * callback = [blackMagicController callbacks:i];
         if(callback->newFrame){
-            pthread_mutex_lock(&callbacks[i]->mutex);
+            pthread_mutex_lock(&callback->mutex);
             callback->newFrame = false;
             int w = callback->w;
             int h = callback->h;
@@ -101,9 +116,9 @@
                 currentFrames[i].allocate(w, h, OF_IMAGE_COLOR);
             }
 */
-            unsigned char * bytes = callbacks[i]->bytes;
+            unsigned char * bytes = callback->bytes;
             currentFrames[i].setFromPixels(bytes, w, h, OF_IMAGE_COLOR);
-            pthread_mutex_unlock(&callbacks[i]->mutex);
+            pthread_mutex_unlock(&callback->mutex);
         }
     }
     
@@ -139,9 +154,38 @@
 -(CIImage*) filterCIImage:(CIImage*)inputImage{
     //   [resizeFilter setValue:inputImage forKey:@"inputImage"];
     // [depthBlurFilter setValue:[resizeFilter valueForKey:@"outputImage"] forKey:@"inputImage"];
-    [blurFilter setValue:[NSNumber numberWithFloat:PropF(@"blur")] forKey:@"inputRadius"];
-    [blurFilter setValue:inputImage forKey:@"inputImage"];
-    CIImage * _outputImage = [blurFilter valueForKey:@"outputImage"];
+   
+    CIImage * _outputImage = inputImage;
+    
+    if(PropB(@"deinterlace")){
+    [deinterlaceFilter setInputImage:_outputImage];
+    _outputImage = [deinterlaceFilter valueForKey:@"outputImage"];
+    }
+    
+   /* [blurFilter setValue:[NSNumber numberWithFloat:PropF(@"blur")] forKey:@"inputRadius"];
+    [blurFilter setValue:_outputImage forKey:@"inputImage"];
+    _outputImage = [blurFilter valueForKey:@"outputImage"];*/
+    
+    [colorControlsFilter setValue:[NSNumber numberWithFloat:PropF(@"saturation")] forKey:@"inputSaturation"];
+    [colorControlsFilter setValue:[NSNumber numberWithFloat:PropF(@"contrast")] forKey:@"inputContrast"];
+    [colorControlsFilter setValue:[NSNumber numberWithFloat:PropF(@"brightness")] forKey:@"inputBrightness"];
+    [colorControlsFilter setValue:_outputImage forKey:@"inputImage"];
+    _outputImage = [colorControlsFilter valueForKey:@"outputImage"];
+    
+    
+    [gammaAdjustFilter setValue:[NSNumber numberWithFloat:PropF(@"gamma")] forKey:@"inputPower"];
+    [gammaAdjustFilter setValue:_outputImage forKey:@"inputImage"];
+    _outputImage = [gammaAdjustFilter valueForKey:@"outputImage"];
+    
+   /* [toneCurveFilter setValue:[NSNumber numberWithFloat:PropF(@"curvep1")] forKey:@"inputPoint0"];
+    [toneCurveFilter setValue:[NSNumber numberWithFloat:PropF(@"curvep2")] forKey:@"inputPoint1"];
+    [toneCurveFilter setValue:[NSNumber numberWithFloat:PropF(@"curvep3")] forKey:@"inputPoint2"];
+    [toneCurveFilter setValue:[NSNumber numberWithFloat:PropF(@"curvep4")] forKey:@"inputPoint3"];
+    [toneCurveFilter setValue:[CIVector numberWithFloat:PropF(@"curvep5")] forKey:@"inputPoint4"];
+    [toneCurveFilter setValue:_outputImage forKey:@"inputImage"];
+    _outputImage = [toneCurveFilter valueForKey:@"outputImage"];*/
+    
+    
     return _outputImage;
 }
 
@@ -176,6 +220,8 @@
          CIImage * outputImage = [self createCIImageFromTexture:[self imageForSelector:outSelector]->getTextureReference().getTextureData().textureID size:NSMakeSize([self imageForSelector:outSelector]->getWidth(), [self imageForSelector:outSelector]->getHeight())];
         
         outputImage = [self filterCIImage:outputImage];
+        
+        
         glScaled(1.0/[outputImage extent].size.width, 1.0/[outputImage extent].size.height, 1);
         //glScaled(1.0/720, 10/576.0, 1);
         [ciContext drawImage:outputImage

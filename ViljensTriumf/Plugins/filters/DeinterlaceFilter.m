@@ -11,6 +11,7 @@
 static CIKernel *deinterlaceKernel = nil;
 
 @implementation DeinterlaceFilter
+@synthesize inputImage = _inputImage;
 
 - (id)init
 {
@@ -28,7 +29,7 @@ static CIKernel *deinterlaceKernel = nil;
 
 - (CIImage *)outputImage
 {
-    CISampler *src = [CISampler samplerWithImage: inputImage];
+    CISampler *src = [CISampler samplerWithImage: self.inputImage];
     
     return [self apply: deinterlaceKernel, src, kCIApplyOptionDefinition, [src definition], nil];
 }

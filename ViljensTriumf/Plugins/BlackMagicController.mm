@@ -44,8 +44,14 @@
             {
                 NSLog(@"This application was unable to obtain IDeckLinkInput for the selected device.");
             }
-            
-            
+          /*
+            if ((deviceList[index]->QueryInterface(IID_IDeckLinkOutput, (void**)&deckLinkOutputs[index]) != S_OK))
+            {
+                NSLog(@"This application was unable to obtain IDeckLinkOutput for the selected device.");
+            }
+            callbacks[index]->output = deckLinkOutputs[index];
+            */
+           
             
             //
             // Retrieve and cache mode list

@@ -35,11 +35,14 @@ public:
     
     unsigned char Clamp(int value);
     void CreateLookupTables();
-    void YuvToRgbChunk(unsigned char *yuv, unsigned char * rgb, unsigned int offset, unsigned int chunk_size);
-    unsigned char * YuvToRgb(IDeckLinkVideoInputFrame* pArrivedFrame);
+    void YuvToARgbChunk(unsigned char *yuv, unsigned char * argb, unsigned int offset, unsigned int chunk_size);
+    unsigned char * YuvToARgb(IDeckLinkVideoInputFrame* pArrivedFrame);
     
     pthread_mutex_t mutex;
 
-    unsigned char * rgb;
+    unsigned char * argb;
+    
+    IDeckLinkOutput * output;
+    IDeckLinkVideoConversion * converter;
 };
 

@@ -16,6 +16,7 @@
     std::vector<IDeckLink*>			deviceList;
     
     IDeckLinkInput  *  deckLinkInputs[3];
+    IDeckLinkOutput  *  deckLinkOutputs[3];
     DecklinkCallback * callbacks[3];
     
 @public

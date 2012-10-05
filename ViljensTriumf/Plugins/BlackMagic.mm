@@ -83,14 +83,14 @@
 
 
 
--(ofImage*) imageForSelector:(int)selector{
+-(CIImage*) imageForSelector:(int)selector{
     if(selector == 0){
         return nil;
     }
     if(selector > 0 && selector <= 3){
-        return &currentFrames[selector-1];
+        return currentFrames[selector-1];
     }
-    if(selector == 4){
+ /*   if(selector == 4){
         if(millisAtLastFramePlayback < ofGetElapsedTimeMillis() - 40){
             millisAtLastFramePlayback = ofGetElapsedTimeMillis();
             playbackIndex++;
@@ -99,30 +99,41 @@
             }
         }
         return &movieRecording[playbackIndex];
-    }
+    }*/
 }
 
 -(void)update:(NSDictionary *)drawingInformation{
     for(int i=0;i<3;i++){
         DecklinkCallback * callback = [blackMagicController callbacks:i];
         if(callback->newFrame){
+                callback->newFrame = false;
+                int w = callback->w;
+                int h = callback->h;
+                
+                
+                
+                if(currentFrames[i]){
+                    [currentFrames[i] release];
+                }
+                
             pthread_mutex_lock(&callback->mutex);
-            callback->newFrame = false;
-            int w = callback->w;
-            int h = callback->h;
-
-            
-         /*   if(currentFrames[i].width != w){
-                currentFrames[i].allocate(w, h, OF_IMAGE_COLOR);
-            }
-*/
             unsigned char * bytes = callback->bytes;
-            currentFrames[i].setFromPixels(bytes, w, h, OF_IMAGE_COLOR);
+
+                NSData * data = [[NSData dataWithBytes:bytes length:w*h*4] autorelease];
+                // NSLog(@"%i",[data retainCount]);
+            
             pthread_mutex_unlock(&callback->mutex);
+
+                CGColorSpace * space = CGColorSpaceCreateDeviceRGB();
+                currentFrames[i] = [CIImage imageWithBitmapData:data bytesPerRow:w*4 size:CGSizeMake(w, h) format:kCIFormatARGB8 colorSpace:space];
+            
+                [data release];
+                data = nil;
+
         }
     }
     
-    if(recordMovie){
+/*    if(recordMovie){
         if(millisAtLastFrameRecord < ofGetElapsedTimeMillis() - 40){
             millisAtLastFrameRecord = ofGetElapsedTimeMillis();
             ofImage * img = [self imageForSelector:outSelector];
@@ -136,7 +147,7 @@
 
             }
         }
-    }
+    }*/
 }
 
 
@@ -162,10 +173,10 @@
     _outputImage = [deinterlaceFilter valueForKey:@"outputImage"];
     }
     
-   /* [blurFilter setValue:[NSNumber numberWithFloat:PropF(@"blur")] forKey:@"inputRadius"];
-    [blurFilter setValue:_outputImage forKey:@"inputImage"];
-    _outputImage = [blurFilter valueForKey:@"outputImage"];*/
-    
+//    [blurFilter setValue:[NSNumber numberWithFloat:PropF(@"blur")] forKey:@"inputRadius"];
+//    [blurFilter setValue:_outputImage forKey:@"inputImage"];
+//    _outputImage = [blurFilter valueForKey:@"outputImage"];
+//    
     [colorControlsFilter setValue:[NSNumber numberWithFloat:PropF(@"saturation")] forKey:@"inputSaturation"];
     [colorControlsFilter setValue:[NSNumber numberWithFloat:PropF(@"contrast")] forKey:@"inputContrast"];
     [colorControlsFilter setValue:[NSNumber numberWithFloat:PropF(@"brightness")] forKey:@"inputBrightness"];
@@ -205,33 +216,37 @@
     
    // deinterlace->begin();
    // deinterlace->setUniform("texcoord0", ofGetFrameNum()%2, 0);
-   //     deinterlace->setUniform("texdim0", 720, 576);
+    //     deinterlace->setUniform("texdim0", 720, 576);
     
     if(outSelector == 0){
         ofSetColor(0, 0, 0);
         ofRect(0, 0, 1, 1);
     }
-   /* if(outSelector == 2){
-        glScaled(1.333,1,1);
-        [self imageForSelector:outSelector]->draw(0,0,1,1);        
-    }
-    else */
+    /* if(outSelector == 2){
+     glScaled(1.333,1,1);
+     [self imageForSelector:outSelector]->draw(0,0,1,1);
+     }
+     else */
     if(outSelector > 0 && outSelector <= 4){
-         CIImage * outputImage = [self createCIImageFromTexture:[self imageForSelector:outSelector]->getTextureReference().getTextureData().textureID size:NSMakeSize([self imageForSelector:outSelector]->getWidth(), [self imageForSelector:outSelector]->getHeight())];
+        // CIImage * outputImage = [self createCIImageFromTexture:[self imageForSelector:outSelector]->getTextureReference().getTextureData().textureID size:NSMakeSize([self imageForSelector:outSelector]->getWidth(), [self imageForSelector:outSelector]->getHeight())];
         
-        outputImage = [self filterCIImage:outputImage];
+        CIImage * outputImage = [self imageForSelector:outSelector];
+        if(outputImage){
+            outputImage = [self filterCIImage:outputImage];
+            
+            float h = [outputImage extent].size.height;
+            glScaled(1.0/[outputImage extent].size.width, -1.0/h, 1);
+            //glScaled(1.0/720, 10/576.0, 1);
+            [ciContext drawImage:outputImage
+                         atPoint:CGPointMake(0,-h) // use integer coordinates to avoid interpolation
+                        fromRect:[outputImage extent]];
+        }
+        outputImage = nil;
         
-        
-        glScaled(1.0/[outputImage extent].size.width, 1.0/[outputImage extent].size.height, 1);
-        //glScaled(1.0/720, 10/576.0, 1);
-        [ciContext drawImage:outputImage
-                              atPoint:CGPointMake(0,0) // use integer coordinates to avoid interpolation
-                             fromRect:[outputImage extent]];
-        
-       //[self imageForSelector:outSelector]->draw(0,0,1,1);
+        //[self imageForSelector:outSelector]->draw(0,0,1,1);
     }
-//    bwShader->end();
-   // deinterlace->end();
+    //    bwShader->end();
+    // deinterlace->end();
 }
 
 -(void)draw:(NSDictionary *)drawingInformation{
@@ -268,12 +283,12 @@
     float mH = mW * 3.0/4.0;
  
     for(int i=0;i<3;i++){
-        currentFrames[i].draw(i*mW,0,mW,mH);
+ //       currentFrames[i].draw(i*mW,0,mW,mH);
     }
 
     ofTranslate(0,mH+30);
     ofScale(mW*3,mH*3);
-    [self render];
+  //  [self render];
 
 }
 

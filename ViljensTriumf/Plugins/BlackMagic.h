@@ -12,7 +12,7 @@ class DeckLinkController;
     
     int outSelector;
 
-    ofImage currentFrames[3];
+    CIImage * currentFrames[3];
     ofImage movieRecording[MOVIE_LENGTH];
     
     int playbackIndex;
@@ -27,7 +27,7 @@ class DeckLinkController;
      ofxShader * deinterlace;
      */
 
-    
+        
     CIContext * ciContextMain; //Context for main output
     CIContext * ciContextControl; //Context for control gl view
     CIContext * ciContext; //Dynamic switched context (main/control)

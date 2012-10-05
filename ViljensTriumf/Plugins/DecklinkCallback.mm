@@ -82,27 +82,33 @@ void DecklinkCallback::CreateLookupTables(){
 
 
 
-void DecklinkCallback::YuvToRgbChunk(unsigned char *yuv, unsigned char * rgb, unsigned int offset, unsigned int chunk_size)
+void DecklinkCallback::YuvToARgbChunk(unsigned char *yuv, unsigned char * __argb, unsigned int offset, unsigned int chunk_size)
 {
-    // convert 4 YUV macropixels to 6 RGB pixels
+    // convert 4 YUV macropixels to 8 ARGB pixels
 	unsigned int i, j;
     unsigned int boundry = offset + chunk_size;
     int y, u, v;
     
-    for(i=offset, j=(offset/4)*6; i<boundry; i+=4, j+=6){
+    for(i=offset, j=(offset/4)*8; i<boundry; i+=4, j+=8){
         y = yuv[i+1];
         u = yuv[i];
         v = yuv[i+2];
         
-        rgb[j]   = red[y][v];
-        rgb[j+1] = green[y][u][v];
-        rgb[j+2] = blue[y][u];
+        unsigned char * _rgb = __argb+j;
+        
+       // *(_rgb++)   = 255;
+        _rgb++;
+        *(_rgb++)   = red[y][v];
+        *(_rgb++) = green[y][u][v];
+        *(_rgb++) = blue[y][u];
         
         y = yuv[i+3];
-        
-        rgb[j+3] = red[y][v];
-        rgb[j+4] = green[y][u][v];
-        rgb[j+5] = blue[y][u];
+
+       // *(_rgb++)   = 255;
+        _rgb++;
+        *(_rgb++) = red[y][v];
+        *(_rgb++) = green[y][u][v];
+        *(_rgb) = blue[y][u];
     }
     
     /*
@@ -136,22 +142,24 @@ void DecklinkCallback::YuvToRgbChunk(unsigned char *yuv, unsigned char * rgb, un
 }
 
 
-unsigned char * DecklinkCallback::YuvToRgb(IDeckLinkVideoInputFrame* pArrivedFrame)
+unsigned char * DecklinkCallback::YuvToARgb(IDeckLinkVideoInputFrame* pArrivedFrame)
 {
+    
+    
     unsigned char * yuv;
     pArrivedFrame->GetBytes((void**)&yuv);
     
     // allocate space for the rgb image
-    if(rgb == nil){
-        int size = pArrivedFrame->GetWidth() * pArrivedFrame->GetHeight()*3*sizeof(unsigned char);
-        rgb = (unsigned char *) malloc(size);
+    if(argb == nil){
+        int size = pArrivedFrame->GetWidth() * pArrivedFrame->GetHeight()*4*sizeof(unsigned char);
+        argb = (unsigned char *) malloc(size);
+        memset(argb, 255, size);
     }
 //    shared_ptr<DLFrame> rgb(new DLFrame(mCaptureWidth, mCaptureHeight, mRgbRowBytes, DLFrame::DL_RGB));
     
-    int num_workers = 8;
+    int num_workers = 16;
     
-    int a;
-    unsigned t0=clock(),t1;
+    //unsigned t0=clock(),t1;
     
     // split up the image into memory-aligned chunks so they take advantage of
     // the CPU cache
@@ -163,17 +171,17 @@ unsigned char * DecklinkCallback::YuvToRgb(IDeckLinkVideoInputFrame* pArrivedFra
     
     for(int i=0;i<num_workers;i++){
         dispatch_group_async(group,queue,^{
-            YuvToRgbChunk(yuv,rgb, mConversionChunkSize*i, mConversionChunkSize);
+            YuvToARgbChunk(yuv,argb, mConversionChunkSize*i, mConversionChunkSize);
         });
     }
     dispatch_group_wait(group, sizeof(int));
 
-    t1=clock()-t0;
+   // t1=clock()-t0;
     //printf("%i\n",t1);
     
-    return rgb;
+    return argb;
 }
-
+/*
 void bwFrames(unsigned char * bytes, int size){
     for(int i=0;i<size;i++){
         unsigned char * r = bytes + i*3;
@@ -184,7 +192,7 @@ void bwFrames(unsigned char * bytes, int size){
     }
 }
 
-
+*/
 
 
 DecklinkCallback::DecklinkCallback(){
@@ -193,7 +201,7 @@ DecklinkCallback::DecklinkCallback(){
     
     pthread_mutex_init(&mutex, NULL);
 
-
+    converter = CreateVideoConversionInstance();
 };
 
 
@@ -253,13 +261,22 @@ HRESULT 	DecklinkCallback::VideoInputFrameArrived (/* in */ IDeckLinkVideoInputF
         
         w = videoFrame->GetWidth();
         h = videoFrame->GetHeight();
-        size = w * h * 3;
+        size = w * h * 4;
         
+      //  IDeckLinkMutableVideoFrame * outFrame;
         
+      //  output->CreateVideoFrame(w, h, w*4, bmdFormat8BitARGB, bmdFrameFlagDefault, &outFrame);
+        
+     //   int result = converter->ConvertFrame(videoFrame, outFrame);
+//        E_FAIL
+    //    printf("%i",result);
         /* if(bytes){
          delete bytes;
          }*/
-        bytes = YuvToRgb(videoFrame);
+        bytes = YuvToARgb(videoFrame);
+        
+       
+        //videoFrame->GetBytes((void**)&bytes);
         // bwFrames(bytes,w*h);
         
         newFrame = true;

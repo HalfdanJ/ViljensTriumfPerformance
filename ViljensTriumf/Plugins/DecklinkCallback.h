@@ -37,5 +37,9 @@ public:
     void CreateLookupTables();
     void YuvToRgbChunk(unsigned char *yuv, unsigned char * rgb, unsigned int offset, unsigned int chunk_size);
     unsigned char * YuvToRgb(IDeckLinkVideoInputFrame* pArrivedFrame);
+    
+    pthread_mutex_t mutex;
+
+    unsigned char * rgb;
 };
 

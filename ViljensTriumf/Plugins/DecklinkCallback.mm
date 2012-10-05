@@ -142,22 +142,47 @@ unsigned char * DecklinkCallback::YuvToRgb(IDeckLinkVideoInputFrame* pArrivedFra
     pArrivedFrame->GetBytes((void**)&yuv);
     
     // allocate space for the rgb image
-    unsigned char * rgb = (unsigned char *) malloc(pArrivedFrame->GetWidth() * pArrivedFrame->GetHeight()*3*sizeof(unsigned char));
+    if(rgb == nil){
+        int size = pArrivedFrame->GetWidth() * pArrivedFrame->GetHeight()*3*sizeof(unsigned char);
+        rgb = (unsigned char *) malloc(size);
+    }
 //    shared_ptr<DLFrame> rgb(new DLFrame(mCaptureWidth, mCaptureHeight, mRgbRowBytes, DLFrame::DL_RGB));
     
-   // int num_workers = conversion_workers.size() - 1;
+    int num_workers = 8;
+    
+    int a;
+    unsigned t0=clock(),t1;
     
     // split up the image into memory-aligned chunks so they take advantage of
     // the CPU cache
-    int     mConversionChunkSize = pArrivedFrame->GetRowBytes() * (long)ceil(pArrivedFrame->GetHeight() / 1.0);
+    int     mConversionChunkSize = pArrivedFrame->GetRowBytes() * (long)ceil(pArrivedFrame->GetHeight() /(float) num_workers);
     
-    YuvToRgbChunk(yuv,rgb, mConversionChunkSize*0, mConversionChunkSize);
     
+    dispatch_queue_t queue = dispatch_get_global_queue(0,0);
+    dispatch_group_t group = dispatch_group_create();
+    
+    for(int i=0;i<num_workers;i++){
+        dispatch_group_async(group,queue,^{
+            YuvToRgbChunk(yuv,rgb, mConversionChunkSize*i, mConversionChunkSize);
+        });
+    }
+    dispatch_group_wait(group, sizeof(int));
+
+    t1=clock()-t0;
+    //printf("%i\n",t1);
     
     return rgb;
 }
 
-
+void bwFrames(unsigned char * bytes, int size){
+    for(int i=0;i<size;i++){
+        unsigned char * r = bytes + i*3;
+        unsigned char * g = bytes + i*3+1;
+        unsigned char * b = bytes + i*3+2;
+        int c =  (*r +  *g + *b)/3.0;
+        bytes[i] = c;
+    }
+}
 
 
 
@@ -165,6 +190,9 @@ unsigned char * DecklinkCallback::YuvToRgb(IDeckLinkVideoInputFrame* pArrivedFra
 DecklinkCallback::DecklinkCallback(){
     bytes = 0;
     CreateLookupTables();
+    
+    pthread_mutex_init(&mutex, NULL);
+
 
 };
 
@@ -208,40 +236,42 @@ HRESULT		DecklinkCallback::VideoInputFormatChanged (/* in */ BMDVideoInputFormat
 			break;
 		}
 		modeIndex++;
-	}
-	
-    
-bail:
-	[pool release];
-	return S_OK;*/
+ }
+ 
+ 
+ bail:
+ [pool release];
+ return S_OK;*/
 }
 
 HRESULT 	DecklinkCallback::VideoInputFrameArrived (/* in */ IDeckLinkVideoInputFrame* videoFrame, /* in */ IDeckLinkAudioInputPacket* audioPacket)
 {
- //   BMDPixelFormat pixelFormat = videoFrame->GetPixelFormat();
-    
-    
-    
-    w = videoFrame->GetWidth();
-    h = videoFrame->GetHeight();
-    size = w * h * 3;
-
-    
-    if(bytes){
-        delete bytes;
+    if(pthread_mutex_trylock(&mutex) == 0){
+        BMDPixelFormat pixelFormat = videoFrame->GetPixelFormat();
+        
+        
+        
+        w = videoFrame->GetWidth();
+        h = videoFrame->GetHeight();
+        size = w * h * 3;
+        
+        
+        /* if(bytes){
+         delete bytes;
+         }*/
+        bytes = YuvToRgb(videoFrame);
+        // bwFrames(bytes,w*h);
+        
+        newFrame = true;
+        pthread_mutex_unlock(&mutex);
     }
-    bytes = YuvToRgb(videoFrame);
     
-    
-    newFrame = true;
-    
-    
-  //  videoFrame->get
+    //  videoFrame->get
     
     /*	BOOL					hasValidInputSource = (videoFrame->GetFlags() & bmdFrameHasNoInputSource) != 0 ? NO : YES;
-	AncillaryDataStruct		ancillaryData;
-	
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+     AncillaryDataStruct		ancillaryData;
+     
+     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	
 	// Update input source label
 	[uiDelegate updateInputSourceState:hasValidInputSource];

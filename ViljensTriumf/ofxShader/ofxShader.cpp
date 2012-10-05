@@ -13,8 +13,8 @@ void ofxShader::setup(string shaderName) {
 }
 
 void ofxShader::setup(string vertexName, string fragmentName) {
-//	vertexName += ".vert";
-//	fragmentName += ".frag";
+	vertexName += ".vert";
+	fragmentName += ".frag";
 	setupInline(loadTextFile(vertexName), loadTextFile(fragmentName));
 }
 

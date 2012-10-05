@@ -1,17 +1,11 @@
 #pragma once
 #import <ofxCocoaPlugins/Plugin.h>
-#import "DeckLinkAPI.h"
-#import "DecklinkCallback.h"
+#import "BlackMagicController.h"
 
 class DeckLinkController;
 @interface BlackMagic : ofPlugin {
-	DeckLinkController*				deckLinkController;
+    BlackMagicController * blackMagicController;
     
-    std::vector<IDeckLink*>			deviceList;
-    
-    
-    IDeckLinkInput  *  deckLinkInputs[3];
-    DecklinkCallback * callbacks[3];
     
     ofImage currentFrames[3];
     

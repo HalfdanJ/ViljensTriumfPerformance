@@ -172,7 +172,8 @@ DecklinkCallback::DecklinkCallback(){
 
 HRESULT		DecklinkCallback::VideoInputFormatChanged (/* in */ BMDVideoInputFormatChangedEvents notificationEvents, /* in */ IDeckLinkDisplayMode *newMode, /* in */ BMDDetectedVideoInputFormatFlags detectedSignalFlags)
 {
-	UInt32				modeIndex = 0;
+	//UInt32				modeIndex = 0;
+    printf("Video format changed");
 /*
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	
@@ -217,7 +218,7 @@ bail:
 
 HRESULT 	DecklinkCallback::VideoInputFrameArrived (/* in */ IDeckLinkVideoInputFrame* videoFrame, /* in */ IDeckLinkAudioInputPacket* audioPacket)
 {
-    BMDPixelFormat pixelFormat = videoFrame->GetPixelFormat();
+ //   BMDPixelFormat pixelFormat = videoFrame->GetPixelFormat();
     
     
     
@@ -257,4 +258,5 @@ HRESULT 	DecklinkCallback::VideoInputFrameArrived (/* in */ IDeckLinkVideoInputF
 	
 	[pool release];
 	return S_OK;*/
+    return S_OK;
 }

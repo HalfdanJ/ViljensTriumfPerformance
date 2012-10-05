@@ -25,6 +25,8 @@
 		DD03973D161C94D500D0D629 /* colorCorrectShader.vert in Resources */ = {isa = PBXBuildFile; fileRef = DD039739161C94A100D0D629 /* colorCorrectShader.vert */; };
 		DD03973E161C94D700D0D629 /* colorCorrectShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = DD03973B161C94B000D0D629 /* colorCorrectShader.frag */; };
 		DD03974C161C96EF00D0D629 /* ofxShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD03974A161C96EF00D0D629 /* ofxShader.cpp */; };
+		DD2B4CB0161CE153003FC9EF /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD2B4CAF161CE153003FC9EF /* GLUT.framework */; };
+		DDDCF64A161EB5AC00E8E368 /* BlackMagicController.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDDCF649161EB5AC00E8E368 /* BlackMagicController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -67,6 +69,9 @@
 		DD03973B161C94B000D0D629 /* colorCorrectShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = colorCorrectShader.frag; sourceTree = "<group>"; };
 		DD03974A161C96EF00D0D629 /* ofxShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxShader.cpp; sourceTree = "<group>"; };
 		DD03974B161C96EF00D0D629 /* ofxShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxShader.h; sourceTree = "<group>"; };
+		DD2B4CAF161CE153003FC9EF /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../../../System/Library/Frameworks/GLUT.framework; sourceTree = "<group>"; };
+		DDDCF648161EB5AC00E8E368 /* BlackMagicController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackMagicController.h; sourceTree = "<group>"; };
+		DDDCF649161EB5AC00E8E368 /* BlackMagicController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BlackMagicController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +82,7 @@
 				845FB20D1520A77400FAB093 /* OpenGL.framework in Frameworks */,
 				84AFDC0815209A0A00DB5DEF /* Cocoa.framework in Frameworks */,
 				84A64CB3152492B3004B2050 /* ofxCocoaPlugins.framework in Frameworks */,
+				DD2B4CB0161CE153003FC9EF /* GLUT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +123,7 @@
 		84AFDC0615209A0A00DB5DEF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DD2B4CAF161CE153003FC9EF /* GLUT.framework */,
 				845FB20C1520A77400FAB093 /* OpenGL.framework */,
 				84AFDC0715209A0A00DB5DEF /* Cocoa.framework */,
 				84AFDC0915209A0A00DB5DEF /* Other Frameworks */,
@@ -187,6 +194,8 @@
 				DD039719161C4F9000D0D629 /* include */,
 				8429C0DA156A7943000ADD56 /* BlackMagic.h */,
 				8429C0DB156A7943000ADD56 /* BlackMagic.mm */,
+				DDDCF648161EB5AC00E8E368 /* BlackMagicController.h */,
+				DDDCF649161EB5AC00E8E368 /* BlackMagicController.mm */,
 				DD039735161C591400D0D629 /* DecklinkCallback.h */,
 				DD039736161C591400D0D629 /* DecklinkCallback.cpp */,
 				8429C0DC156A7943000ADD56 /* BlackMagic.xib */,
@@ -289,6 +298,7 @@
 				DD03973A161C94A100D0D629 /* colorCorrectShader.vert in Sources */,
 				DD03973C161C94B000D0D629 /* colorCorrectShader.frag in Sources */,
 				DD03974C161C96EF00D0D629 /* ofxShader.cpp in Sources */,
+				DDDCF64A161EB5AC00E8E368 /* BlackMagicController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

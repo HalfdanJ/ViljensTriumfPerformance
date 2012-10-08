@@ -146,7 +146,7 @@ unsigned char * DecklinkCallback::YuvToRgb(IDeckLinkVideoInputFrame* pArrivedFra
         int size = pArrivedFrame->GetWidth() * pArrivedFrame->GetHeight()*3*sizeof(unsigned char);
         rgb = (unsigned char *) malloc(size);
     }
-//    shared_ptr<DLFrame> rgb(new DLFrame(mCaptureWidth, mCaptureHeight, mRgbRowBytes, DLFrame::DL_RGB));
+    //    shared_ptr<DLFrame> rgb(new DLFrame(mCaptureWidth, mCaptureHeight, mRgbRowBytes, DLFrame::DL_RGB));
     
     int num_workers = 8;
     
@@ -166,8 +166,8 @@ unsigned char * DecklinkCallback::YuvToRgb(IDeckLinkVideoInputFrame* pArrivedFra
             YuvToRgbChunk(yuv,rgb, mConversionChunkSize*i, mConversionChunkSize);
         });
     }
-    dispatch_group_wait(group, sizeof(int));
-
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    
     t1=clock()-t0;
     //printf("%i\n",t1);
     
@@ -192,8 +192,8 @@ DecklinkCallback::DecklinkCallback(){
     CreateLookupTables();
     
     pthread_mutex_init(&mutex, NULL);
-
-
+    
+    
 };
 
 
@@ -202,52 +202,53 @@ HRESULT		DecklinkCallback::VideoInputFormatChanged (/* in */ BMDVideoInputFormat
 {
 	//UInt32				modeIndex = 0;
     printf("Video format changed");
-/*
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-	
-	// Restart capture with the new video mode if told to
-	if ([uiDelegate shouldRestartCaptureWithNewVideoMode] == YES)
-	{
-		// Stop the capture
-		deckLinkInput->StopStreams();
-		
-		// Set the video input mode
-		if (deckLinkInput->EnableVideoInput(newMode->GetDisplayMode(), bmdFormat8BitYUV, bmdVideoInputEnableFormatDetection) != S_OK)
-		{
-			[uiDelegate stopCapture];
-			[uiDelegate showErrorMessage:@"This application was unable to select the new video mode." title:@"Error restarting the capture."];
-			goto bail;
-		}
-		
-		// Start the capture
-		if (deckLinkInput->StartStreams() != S_OK)
-		{
-			[uiDelegate stopCapture];
-			[uiDelegate showErrorMessage:@"This application was unable to start the capture on the selected device." title:@"Error restarting the capture."];
-			goto bail;
-		}
-	}
-	
-	// Find the index of the new mode in the mode list so we can update the UI
-	while (modeIndex < modeList.size()) {
-		if (modeList[modeIndex]->GetDisplayMode() == newMode->GetDisplayMode())
-		{
-			[uiDelegate selectDetectedVideoModeWithIndex: modeIndex];
-			break;
-		}
-		modeIndex++;
- }
- 
- 
- bail:
- [pool release];
- return S_OK;*/
+    /*
+     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+     
+     // Restart capture with the new video mode if told to
+     if ([uiDelegate shouldRestartCaptureWithNewVideoMode] == YES)
+     {
+     // Stop the capture
+     deckLinkInput->StopStreams();
+     
+     // Set the video input mode
+     if (deckLinkInput->EnableVideoInput(newMode->GetDisplayMode(), bmdFormat8BitYUV, bmdVideoInputEnableFormatDetection) != S_OK)
+     {
+     [uiDelegate stopCapture];
+     [uiDelegate showErrorMessage:@"This application was unable to select the new video mode." title:@"Error restarting the capture."];
+     goto bail;
+     }
+     
+     // Start the capture
+     if (deckLinkInput->StartStreams() != S_OK)
+     {
+     [uiDelegate stopCapture];
+     [uiDelegate showErrorMessage:@"This application was unable to start the capture on the selected device." title:@"Error restarting the capture."];
+     goto bail;
+     }
+     }
+     
+     // Find the index of the new mode in the mode list so we can update the UI
+     while (modeIndex < modeList.size()) {
+     if (modeList[modeIndex]->GetDisplayMode() == newMode->GetDisplayMode())
+     {
+     [uiDelegate selectDetectedVideoModeWithIndex: modeIndex];
+     break;
+     }
+     modeIndex++;
+     }
+     
+     
+     bail:
+     [pool release];
+     return S_OK;*/
 }
 
 HRESULT 	DecklinkCallback::VideoInputFrameArrived (/* in */ IDeckLinkVideoInputFrame* videoFrame, /* in */ IDeckLinkAudioInputPacket* audioPacket)
 {
-    if(pthread_mutex_trylock(&mutex) == 0){
-        BMDPixelFormat pixelFormat = videoFrame->GetPixelFormat();
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    if(pthread_mutex_lock(&mutex) == 0){
+//        BMDPixelFormat pixelFormat = videoFrame->GetPixelFormat();
         
         
         
@@ -265,28 +266,29 @@ HRESULT 	DecklinkCallback::VideoInputFrameArrived (/* in */ IDeckLinkVideoInputF
         newFrame = true;
         pthread_mutex_unlock(&mutex);
     }
+    [pool release];
     
     //  videoFrame->get
     
     /*	BOOL					hasValidInputSource = (videoFrame->GetFlags() & bmdFrameHasNoInputSource) != 0 ? NO : YES;
      AncillaryDataStruct		ancillaryData;
      
-     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-	
-	// Update input source label
-	[uiDelegate updateInputSourceState:hasValidInputSource];
-	
-	// Get the various timecodes and userbits for this frame
-	getAncillaryDataFromFrame(videoFrame, bmdTimecodeVITC, &ancillaryData.vitcF1Timecode, &ancillaryData.vitcF1UserBits);
-	getAncillaryDataFromFrame(videoFrame, bmdTimecodeVITCField2, &ancillaryData.vitcF2Timecode, &ancillaryData.vitcF2UserBits);
-	getAncillaryDataFromFrame(videoFrame, bmdTimecodeRP188VITC1, &ancillaryData.rp188vitc1Timecode, &ancillaryData.rp188vitc1UserBits);
-	getAncillaryDataFromFrame(videoFrame, bmdTimecodeRP188LTC, &ancillaryData.rp188ltcTimecode, &ancillaryData.rp188ltcUserBits);
-	getAncillaryDataFromFrame(videoFrame, bmdTimecodeRP188VITC2, &ancillaryData.rp188vitc2Timecode, &ancillaryData.rp188vitc2UserBits);
-	
-	// Update the UI
-	[uiDelegate updateAncillaryData:&ancillaryData];
-	
-	[pool release];
-	return S_OK;*/
+     
+     
+     // Update input source label
+     [uiDelegate updateInputSourceState:hasValidInputSource];
+     
+     // Get the various timecodes and userbits for this frame
+     getAncillaryDataFromFrame(videoFrame, bmdTimecodeVITC, &ancillaryData.vitcF1Timecode, &ancillaryData.vitcF1UserBits);
+     getAncillaryDataFromFrame(videoFrame, bmdTimecodeVITCField2, &ancillaryData.vitcF2Timecode, &ancillaryData.vitcF2UserBits);
+     getAncillaryDataFromFrame(videoFrame, bmdTimecodeRP188VITC1, &ancillaryData.rp188vitc1Timecode, &ancillaryData.rp188vitc1UserBits);
+     getAncillaryDataFromFrame(videoFrame, bmdTimecodeRP188LTC, &ancillaryData.rp188ltcTimecode, &ancillaryData.rp188ltcUserBits);
+     getAncillaryDataFromFrame(videoFrame, bmdTimecodeRP188VITC2, &ancillaryData.rp188vitc2Timecode, &ancillaryData.rp188vitc2UserBits);
+     
+     // Update the UI
+     [uiDelegate updateAncillaryData:&ancillaryData];
+     
+     [pool release];
+     return S_OK;*/
     return S_OK;
 }

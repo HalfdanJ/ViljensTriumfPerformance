@@ -43,7 +43,7 @@
     deinterlace = new ofxShader();
     deinterlace->setup("/Users/jonas/Development/ViljensTriumf/ViljensTriumf/Plugins/shaders/deinterlace");
 */
-    
+
     for(int i=0;i<MOVIE_LENGTH;i++){
         
     }
@@ -68,7 +68,9 @@
     
     CGLContextObj  contextGl = CGLContextObj([[[[[globalController viewManager] glViews] objectAtIndex:0] openGLContext] CGLContextObj]);
 	CGLPixelFormatObj pixelformatGl = CGLPixelFormatObj([[[[[globalController viewManager] glViews] objectAtIndex:0] pixelFormat] CGLPixelFormatObj]);
-    ciContextMain = [CIContext contextWithCGLContext:contextGl pixelFormat:pixelformatGl  colorSpace:CGColorSpaceCreateDeviceRGB() options:nil];
+    
+    NSDictionary * options = @{kCIContextWorkingColorSpace:(id)kCFNull};
+    ciContextMain = [CIContext contextWithCGLContext:contextGl pixelFormat:pixelformatGl  colorSpace:nil options:options];
 
 }
 
@@ -83,14 +85,14 @@
 
 
 
--(ofImage*) imageForSelector:(int)selector{
+-(CIImage*) imageForSelector:(int)selector{
     if(selector == 0){
         return nil;
     }
     if(selector > 0 && selector <= 3){
-        return &currentFrames[selector-1];
+        return currentCIImage[selector-1];
     }
-    if(selector == 4){
+/*    if(selector == 4){
         if(millisAtLastFramePlayback < ofGetElapsedTimeMillis() - 40){
             millisAtLastFramePlayback = ofGetElapsedTimeMillis();
             playbackIndex++;
@@ -99,10 +101,22 @@
             }
         }
         return &movieRecording[playbackIndex];
-    }
+    }*/
 }
 
 -(void)update:(NSDictionary *)drawingInformation{
+    //Set camera active flag
+    
+    for(int i=0;i<3;i++){
+        DecklinkCallback * callback = [blackMagicController callbacks:i];
+        if(outSelector == i +1){
+            callback->cameraActive = true;
+        } else {
+            callback->cameraActive = false;
+        }
+    }
+    
+    
     for(int i=0;i<3;i++){
         DecklinkCallback * callback = [blackMagicController callbacks:i];
         if(callback->newFrame){
@@ -110,19 +124,26 @@
             callback->newFrame = false;
             int w = callback->w;
             int h = callback->h;
-
             
-         /*   if(currentFrames[i].width != w){
-                currentFrames[i].allocate(w, h, OF_IMAGE_COLOR);
-            }
-*/
+            
+            
             unsigned char * bytes = callback->bytes;
             currentFrames[i].setFromPixels(bytes, w, h, OF_IMAGE_COLOR);
             pthread_mutex_unlock(&callback->mutex);
+            
+            
+            currentCIImage[i] = [self createCIImageFromTexture:currentFrames[i].getTextureReference().getTextureData().textureID size:NSMakeSize(currentFrames[i].getWidth(), currentFrames[i].getHeight())];
+            
+            currentCIImage[i] = [self filterCIImage:currentCIImage[i]];
+            
         }
     }
+    /*
+     for(int i=0;i<3;i++){
+     grabber[i]->update();
+     }*/
     
-    if(recordMovie){
+   /* if(recordMovie){
         if(millisAtLastFrameRecord < ofGetElapsedTimeMillis() - 40){
             millisAtLastFrameRecord = ofGetElapsedTimeMillis();
             ofImage * img = [self imageForSelector:outSelector];
@@ -136,7 +157,7 @@
 
             }
         }
-    }
+    }*/
 }
 
 
@@ -145,7 +166,7 @@
 //
 -(CIImage*) createCIImageFromTexture:(GLint)tex size:(NSSize)size{
    // NSLog(@"Create CI Image");
-    CIImage * image = [CIImage imageWithTexture:tex size:CGSizeMake(size.width, size.height) flipped:NO colorSpace:CGColorSpaceCreateDeviceRGB()];
+    CIImage * image = [CIImage imageWithTexture:tex size:CGSizeMake(size.width, size.height) flipped:NO colorSpace:nil];
     //  NSURL * url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@%@", [engine assetDir],[self assetString]] isDirectory:NO];
     //    CIImage * image = [CIImage imageWithContentsOfURL:url];
     return image;
@@ -199,46 +220,39 @@
     ofFill();
     ofSetColor(255, 255, 255);
     
-  /*  bwShader->begin();
-    bwShader->setUniform("min", PropF(@"min"));
-    bwShader->setUniform("max", PropF(@"max"));*/
-    
-   // deinterlace->begin();
-   // deinterlace->setUniform("texcoord0", ofGetFrameNum()%2, 0);
-   //     deinterlace->setUniform("texdim0", 720, 576);
-    
     if(outSelector == 0){
         ofSetColor(0, 0, 0);
         ofRect(0, 0, 1, 1);
     }
     else
     if(outSelector > 0 && outSelector <= 4){
-         CIImage * outputImage = [self createCIImageFromTexture:[self imageForSelector:outSelector]->getTextureReference().getTextureData().textureID size:NSMakeSize([self imageForSelector:outSelector]->getWidth(), [self imageForSelector:outSelector]->getHeight())];
-        
-        outputImage = [self filterCIImage:outputImage];
-        
+//         renderImage = [self createCIImageFromTexture:[self imageForSelector:outSelector]->getTextureReference().getTextureData().textureID size:NSMakeSize([self imageForSelector:outSelector]->getWidth(), [self imageForSelector:outSelector]->getHeight())];
+//        
+//        renderImage = [self filterCIImage:renderImage];
+//        
 /*        if(outSelector == 2){
             glScaled(1.333,1,1);
         }
   
  */
-        glScaled(1.0/[outputImage extent].size.width, 1.0/[outputImage extent].size.height, 1);
-        //glScaled(1.0/720, 10/576.0, 1);
-        [ciContext drawImage:outputImage
-                              atPoint:CGPointMake(0,0) // use integer coordinates to avoid interpolation
-                             fromRect:[outputImage extent]];
+        CIImage * renderImage = [self imageForSelector:outSelector];
         
-       //[self imageForSelector:outSelector]->draw(0,0,1,1);
+        glScaled(1.0/[renderImage extent].size.width, 1.0/[renderImage extent].size.height, 1);
+        [ciContext drawImage:renderImage inRect:[renderImage extent] fromRect:[renderImage extent]];
     }
 //    bwShader->end();
    // deinterlace->end();
 }
+
 
 -(void)draw:(NSDictionary *)drawingInformation{
     ciContext = ciContextMain;
     
  //   shader->begin();
     [self render];
+    
+    
+    //grabber[0]->draw(0,0,1,1);
     
  //   shader->end();
 
@@ -251,8 +265,9 @@
 -(void)controlDraw:(NSDictionary *)drawingInformation{
     if(!ciContextControl){
     CGLContextObj  contextGl =  CGLGetCurrentContext();
-	CGLPixelFormatObj pixelformatGl = CGLPixelFormatObj([[[[[globalController viewManager] glViews] objectAtIndex:0] pixelFormat] CGLPixelFormatObj]);
-    ciContextControl = [CIContext contextWithCGLContext:contextGl pixelFormat:pixelformatGl  colorSpace:CGColorSpaceCreateDeviceRGB() options:nil];
+    CGLPixelFormatObj pixelformatGl = CGLGetPixelFormat(contextGl);
+//	CGLPixelFormatObj pixelformatGl = CGLPixelFormatObj([[[[[globalController viewManager] glViews] objectAtIndex:0] pixelFormat] CGLPixelFormatObj]);
+    ciContextControl = [CIContext contextWithCGLContext:contextGl pixelFormat:pixelformatGl  colorSpace:nil options:nil];
     }
     ciContext = ciContextControl;
 
@@ -272,8 +287,10 @@
     }
 
     ofTranslate(0,mH+30);
-    ofScale(mW*3,mH*3);
-    [self render];
+  //  ofScale(mW*3,mH*3);
+ //   [self render];
+   // [ciContext drawImage:renderImage inRect:[renderImage extent] fromRect:[renderImage extent]];
+
 
 }
 
@@ -284,6 +301,7 @@
     switch (key) {
         case 82:
             outSelector = 0;
+
             break;
 
         case 83:

@@ -8,6 +8,8 @@
 #include <vector>
 
 #include "DeckLinkAPI.h"
+#import <QuartzCore/QuartzCore.h>
+
 class DecklinkCallback : public IDeckLinkInputCallback{
 public:
     DecklinkCallback();
@@ -22,6 +24,9 @@ public:
     unsigned char                                blue[256][256];
     unsigned char                                green[256][256][256];
     
+    unsigned char * rgb;
+
+        bool cameraActive;
     // IUnknown needs only a dummy implementation
 	virtual HRESULT		QueryInterface (REFIID iid, LPVOID *ppv)	{return E_NOINTERFACE;}
 	virtual ULONG		AddRef ()									{return 1;}
@@ -40,6 +45,5 @@ public:
     
     pthread_mutex_t mutex;
 
-    unsigned char * rgb;
 };
 

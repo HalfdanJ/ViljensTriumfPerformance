@@ -211,17 +211,17 @@
         ofSetColor(0, 0, 0);
         ofRect(0, 0, 1, 1);
     }
-   /* if(outSelector == 2){
-        glScaled(1.333,1,1);
-        [self imageForSelector:outSelector]->draw(0,0,1,1);        
-    }
-    else */
+    else
     if(outSelector > 0 && outSelector <= 4){
          CIImage * outputImage = [self createCIImageFromTexture:[self imageForSelector:outSelector]->getTextureReference().getTextureData().textureID size:NSMakeSize([self imageForSelector:outSelector]->getWidth(), [self imageForSelector:outSelector]->getHeight())];
         
         outputImage = [self filterCIImage:outputImage];
         
-        
+/*        if(outSelector == 2){
+            glScaled(1.333,1,1);
+        }
+  
+ */
         glScaled(1.0/[outputImage extent].size.width, 1.0/[outputImage extent].size.height, 1);
         //glScaled(1.0/720, 10/576.0, 1);
         [ciContext drawImage:outputImage

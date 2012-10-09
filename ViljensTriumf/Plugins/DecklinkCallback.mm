@@ -268,7 +268,7 @@ HRESULT 	DecklinkCallback::VideoInputFrameArrived (/* in */ IDeckLinkVideoInputF
         /* if(bytes){
          delete bytes;
          }*/
-        bytes = YuvToArgb(videoFrame);
+        bytes = YuvToRgb(videoFrame);
         // bwFrames(bytes,w*h);
         
         newFrame = true;

@@ -49,8 +49,10 @@ class DeckLinkController;
     QTMovie *mMovie;
     QTVisualContextRef	movieTextureContext;
     CVOpenGLTextureRef  movieCurrentFrame;
+    
+    NSImage * recordImage;
 
-
+//    CIImage * movie[1000];
 
 }
 

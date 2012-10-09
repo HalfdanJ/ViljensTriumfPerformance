@@ -112,20 +112,20 @@
         return currentCIImage[selector-1];
     }
     if(selector == 4){
-        /*    if(millisAtLastFramePlayback < ofGetElapsedTimeMillis() - 40){
-         millisAtLastFramePlayback = ofGetElapsedTimeMillis();
-         playbackIndex++;
-         if(recordIndex <= playbackIndex){
-         playbackIndex = recordIndex-1;
-         }
-         }
-         return &movieRecording[playbackIndex];*/
-        __block NSData * tiffData;
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            tiffData = [[mMovie currentFrameImage] TIFFRepresentation];
-        });
-        CIImage *ciImage = [CIImage imageWithData:tiffData];
-        return ciImage;
+      /*  if(millisAtLastFramePlayback < ofGetElapsedTimeMillis() - 400){
+            millisAtLastFramePlayback = ofGetElapsedTimeMillis();
+            playbackIndex++;
+            if(recordIndex <= playbackIndex){
+                playbackIndex = recordIndex-1;
+            }
+        }
+        return movie[playbackIndex];*/
+        /*        __block NSData * tiffData;
+         dispatch_sync(dispatch_get_main_queue(), ^{
+         tiffData = [[mMovie currentFrameImage] TIFFRepresentation];
+         });
+         CIImage *ciImage = [CIImage imageWithData:tiffData];
+         return ciImage;*/
     }
 }
 
@@ -154,18 +154,103 @@
             
             unsigned char * bytes = callback->bytes;
             currentFrames[i].setFromPixels(bytes, w, h, OF_IMAGE_COLOR);
-            pthread_mutex_unlock(&callback->mutex);
             
+            if(recordMovie && outSelector - 1 == i){
+                
+                
+                
+                    NSData * data = [NSData dataWithBytes:bytes length:w*h*3];
+                 
+                 NSBitmapImageRep * imageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:&bytes pixelsWide:w pixelsHigh:h bitsPerSample:8 samplesPerPixel:3 hasAlpha:NO isPlanar:NO colorSpaceName:NSDeviceRGBColorSpace bitmapFormat:0 bytesPerRow:3*w bitsPerPixel:8*3];
+                 
+                 
+                 //                = [NSBitmapImageRep imageRepWithData:data];
+                 NSSize imageSize = NSMakeSize(CGImageGetWidth([imageRep CGImage]), CGImageGetHeight([imageRep CGImage]));
+                 
+                 recordImage = [[NSImage alloc] initWithSize:imageSize];
+                 [recordImage addRepresentation:imageRep];
+                 
+                 
+                
+                
+                
+                
+                  {
+                 NSData *imageData = [recordImage TIFFRepresentation];
+                 NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:imageData];
+                 NSDictionary *imageProps = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.0] forKey:NSImageCompressionFactor];
+                 imageData = [imageRep representationUsingType:NSJPEGFileType properties:imageProps];
+                 [imageData writeToFile:@"/Users/jonas/Desktop/test.jpg" atomically:NO];
+                 }
+                
+            }
+            
+            pthread_mutex_unlock(&callback->mutex);
             
             currentCIImage[i] = [self createCIImageFromTexture:currentFrames[i].getTextureReference().getTextureData().textureID size:NSMakeSize(currentFrames[i].getWidth(), currentFrames[i].getHeight())];
             
             currentCIImage[i] = [self filterCIImage:currentCIImage[i]];
             
+            if(recordMovie && outSelector - 1 == i){
+                //movie[recordIndex++] = currentCIImage[i];
+                /*
+                 
+                 CIContext *context = [CIContext contextWithOptions:nil];
+                 CGImageRef cgImage = [context createCGImage:currentCIImage[i] fromRect:currentCIImage[i].extent];
+                 CGDataProviderRef provider = CGImageGetDataProvider(cgImage);
+                 CFDataRef data = CGDataProviderCopyData(provider);
+                 
+                 CGRect extent = [currentCIImage[i] extent];
+                 //png.Load((UInt8*)CFDataGetBytePtr(data), extent.size.width, extent.size.height, true);
+                 
+                 
+                 unsigned char * bytes = (unsigned char*)CFDataGetBytePtr(data);
+                 
+                 NSBitmapImageRep * imageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:&bytes pixelsWide:w pixelsHigh:h bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSDeviceRGBColorSpace bitmapFormat:0 bytesPerRow:4*w bitsPerPixel:8*4];
+                 
+                 
+                 //                = [NSBitmapImageRep imageRepWithData:data];
+                 NSSize imageSize = NSMakeSize(CGImageGetWidth([imageRep CGImage]), CGImageGetHeight([imageRep CGImage]));
+                 
+                 recordImage = [[NSImage alloc] initWithSize:imageSize];
+                 [recordImage addRepresentation:imageRep];
+                 
+                 
+                 */
+                /*CIImage * ciImage = currentCIImage[i];
+                 NSImage *recordImage = [[[NSImage alloc] initWithSize:NSSizeFromCGSize([ciImage extent].size)] autorelease];
+                 
+                 CGContextRef contextRef = (CGContextRef)
+                 [[NSGraphicsContext currentContext]
+                 graphicsPort];
+                 CIContext *ciContext =
+                 [CIContext contextWithCGContext:contextRef
+                 options:[NSDictionary dictionaryWithObject:
+                 [NSNumber numberWithBool:YES]
+                 forKey:kCIContextUseSoftwareRenderer]];
+                 [ciContext drawImage:ciImage
+                 atPoint:CGPointMake(0, 0) fromRect:[ciImage extent]];
+                 [recordImage unlockFocus];
+                 
+                 
+                 
+                 {
+                 NSData *imageData = [recordImage TIFFRepresentation];
+                 NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:imageData];
+                 NSDictionary *imageProps = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.0] forKey:NSImageCompressionFactor];
+                 imageData = [imageRep representationUsingType:NSJPEGFileType properties:imageProps];
+                 [imageData writeToFile:@"/Users/jonas/Desktop/test.jpg" atomically:NO];
+                 }
+                 //
+                 //                CFRelease(data);
+                 //                CFRelease(cgImage);*/
+            }
+            
         }
     }
     
     if(recordMovie){
-        /* if(millisAtLastFrameRecord < ofGetElapsedTimeMillis() - 40){
+     /*    if(millisAtLastFrameRecord < ofGetElapsedTimeMillis() - 40){
          millisAtLastFrameRecord = ofGetElapsedTimeMillis();
          ofImage * img = [self imageForSelector:outSelector];
          if(img != nil && outSelector != 4){
@@ -178,89 +263,89 @@
          
          }
          }
-         }*/
-        
-      //  dispatch_async(dispatch_get_main_queue(), ^{
-            if(outSelector != 4){
-                CIImage * ciImage = [self imageForSelector:outSelector];
-                
-                
-                
-                int timeDiff = ofGetElapsedTimeMillis() - millisAtLastFrameRecord;
-                if (ciImage) {
-                   ofImage img = currentFrames[outSelector-1];
-                    unsigned char * bytes = img.getPixels();
-                    
-                    
-                    NSData * data = [NSData dataWithBytes:bytes length:img.width*img.height*3];
-                  
-                    NSBitmapImageRep * imageRep = [NSBitmapImageRep imageRepWithData:data];
-                    NSSize imageSize = NSMakeSize(CGImageGetWidth([imageRep CGImage]), CGImageGetHeight([imageRep CGImage]));
-                    
-                    NSImage * image = [[NSImage alloc] initWithSize:imageSize];
-                    [image addRepresentation:imageRep];
-
-                    
-                    
-                   /* NSCIImageRep *imageRep;
-                    imageRep = [NSCIImageRep imageRepWithCIImage:ciImage];
-                    NSImage *image = [[[NSImage alloc] initWithSize:[imageRep size]] autorelease];
-                    [image addRepresentation:imageRep];
-                    */
-                    {
-                        NSData *imageData = [image TIFFRepresentation];
-                        NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:imageData];
-                        NSDictionary *imageProps = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.0] forKey:NSImageCompressionFactor];
-                        imageData = [imageRep representationUsingType:NSJPEGFileType properties:imageProps];
-                        [imageData writeToFile:@"/Users/jonas/Desktop/test.jpg" atomically:NO];
-                    }
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [mMovie addImage:image forDuration:QTMakeTime(timeDiff, 1000) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys: @"jpeg", QTAddImageCodecType, nil]];
-                        [mMovie setCurrentTime:[mMovie duration]];
-                        /*               [mMovieView setNeedsDisplay:YES];
-                         [self updateChangeCount:NSChangeDone];*/
-                        
-                    });
-                    millisAtLastFrameRecord = ofGetElapsedTimeMillis();
-                }
-            }
+         }
+        */
+        //  dispatch_async(dispatch_get_main_queue(), ^{
+        if(outSelector != 4){
+            CIImage * ciImage = [self imageForSelector:outSelector];
             
-       // });
+            
+            
+            int timeDiff = ofGetElapsedTimeMillis() - millisAtLastFrameRecord;
+            //  if (ciImage && recordImage) {
+            /* ofImage img = currentFrames[outSelector-1];
+             unsigned char * bytes = img.getPixels();
+             
+             printf("%i\n",bytes[1]);
+             
+             NSData * data = [NSData dataWithBytes:bytes length:img.width*img.height*3];
+             
+             NSBitmapImageRep * imageRep = [NSBitmapImageRep imageRepWithData:data];
+             NSSize imageSize = NSMakeSize(CGImageGetWidth([imageRep CGImage]), CGImageGetHeight([imageRep CGImage]));
+             
+             NSImage * image = [[NSImage alloc] initWithSize:imageSize];
+             [image addRepresentation:imageRep];
+             */
+            
+            
+            /* NSCIImageRep *imageRep;
+             imageRep = [NSCIImageRep imageRepWithCIImage:ciImage];
+             NSImage *image = [[[NSImage alloc] initWithSize:[imageRep size]] autorelease];
+             [image addRepresentation:imageRep];
+             */
+            /*    {
+             NSData *imageData = [image TIFFRepresentation];
+             NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:imageData];
+             NSDictionary *imageProps = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.0] forKey:NSImageCompressionFactor];
+             imageData = [imageRep representationUsingType:NSJPEGFileType properties:imageProps];
+             [imageData writeToFile:@"/Users/jonas/Desktop/test.jpg" atomically:NO];
+             }
+             */
+               dispatch_async(dispatch_get_main_queue(), ^{
+             [mMovie addImage:recordImage forDuration:QTMakeTime(timeDiff, 1000) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys: @"jpeg", QTAddImageCodecType, nil]];
+             [mMovie setCurrentTime:[mMovie duration]];
+             
+             });
+             millisAtLastFrameRecord = ofGetElapsedTimeMillis();
+             //}
+        }
+        
+        // });
     }
     
     
-    NSLog(@"%lli",[mMovie currentTime].timeValue);
+    //    NSLog(@"%lli",[mMovie currentTime].timeValue);
     
     // check for new frame
 	const CVTimeStamp * outputTime;
-	[[drawingInformation objectForKey:@"outputTime"] getValue:&outputTime];
-	QTVisualContextTask(movieTextureContext);
-    if (movieTextureContext != NULL && QTVisualContextIsNewImageAvailable(movieTextureContext, outputTime)) {
-        // if we have a previous frame release it
-        if (NULL != movieCurrentFrame) {
-            CVOpenGLTextureRelease(movieCurrentFrame);
-            movieCurrentFrame = NULL;
-        }
-        // get a "frame" (image buffer) from the Visual Context, indexed by the provided time
-        OSStatus status = QTVisualContextCopyImageForTime(movieTextureContext, NULL, outputTime, &movieCurrentFrame);
-        
-        // the above call may produce a null frame so check for this first
-        // if we have a frame, then draw it
-        if ( ( status != noErr ) && ( movieCurrentFrame != NULL ) ){
-            NSLog(@"Error: OSStatus: %d",status);
-            CFRelease( movieCurrentFrame );
-            
-            movieCurrentFrame = NULL;
-        }
-    } else if  (movieTextureContext == NULL){
-        NSLog(@"No textureContext");
-        if (NULL != movieCurrentFrame) {
-            CVOpenGLTextureRelease(movieCurrentFrame);
-            movieCurrentFrame = NULL;
-        }
-    }
-    
+     [[drawingInformation objectForKey:@"outputTime"] getValue:&outputTime];
+     QTVisualContextTask(movieTextureContext);
+     if (movieTextureContext != NULL && QTVisualContextIsNewImageAvailable(movieTextureContext, outputTime)) {
+     // if we have a previous frame release it
+     if (NULL != movieCurrentFrame) {
+     CVOpenGLTextureRelease(movieCurrentFrame);
+     movieCurrentFrame = NULL;
+     }
+     // get a "frame" (image buffer) from the Visual Context, indexed by the provided time
+     OSStatus status = QTVisualContextCopyImageForTime(movieTextureContext, NULL, outputTime, &movieCurrentFrame);
+     
+     // the above call may produce a null frame so check for this first
+     // if we have a frame, then draw it
+     if ( ( status != noErr ) && ( movieCurrentFrame != NULL ) ){
+     NSLog(@"Error: OSStatus: %d",status);
+     CFRelease( movieCurrentFrame );
+     
+     movieCurrentFrame = NULL;
+     }
+     } else if  (movieTextureContext == NULL){
+     NSLog(@"No textureContext");
+     if (NULL != movieCurrentFrame) {
+     CVOpenGLTextureRelease(movieCurrentFrame);
+     movieCurrentFrame = NULL;
+     }
+     }
+     
+     
 }
 
 
@@ -343,39 +428,39 @@
             glScaled(1.0/[renderImage extent].size.width, 1.0/[renderImage extent].size.height, 1);
             [ciContext drawImage:renderImage inRect:[renderImage extent] fromRect:[renderImage extent]];
         }
-        else if(outSelector == 4){
-            if(movieCurrentFrame != nil ){
-                //Draw video
-                GLfloat topLeft[2], topRight[2], bottomRight[2], bottomLeft[2];
-                
-                GLenum target = CVOpenGLTextureGetTarget(movieCurrentFrame);
-                GLint _name = CVOpenGLTextureGetName(movieCurrentFrame);
-                
-                // get the texture coordinates for the part of the image that should be displayed
-                CVOpenGLTextureGetCleanTexCoords(movieCurrentFrame, bottomLeft, bottomRight, topRight, topLeft);
-                
-                
-                glEnable(target);
-                glBindTexture(target, _name);
-                ofSetColor(255,255, 255, 255);
-                glPushMatrix();
-                
-                glBegin(GL_QUADS);{
-                    glTexCoord2f(topLeft[0], topLeft[1]);  glVertex2f(0, 0);
-                    glTexCoord2f(topRight[0], topRight[1]);     glVertex2f(1,0);
-                    glTexCoord2f(bottomRight[0], bottomRight[1]);    glVertex2f(1,  1);
-                    glTexCoord2f(bottomLeft[0], bottomLeft[1]); glVertex2f( 0, 1);
-                }glEnd();
-                
-                glPopMatrix();
-                
-                
-                glDisable(target);
-                
-                QTVisualContextTask(movieTextureContext);
-            }
-            
-        }
+    else if(outSelector == 4){
+     if(movieCurrentFrame != nil ){
+     //Draw video
+     GLfloat topLeft[2], topRight[2], bottomRight[2], bottomLeft[2];
+     
+     GLenum target = CVOpenGLTextureGetTarget(movieCurrentFrame);
+     GLint _name = CVOpenGLTextureGetName(movieCurrentFrame);
+     
+     // get the texture coordinates for the part of the image that should be displayed
+     CVOpenGLTextureGetCleanTexCoords(movieCurrentFrame, bottomLeft, bottomRight, topRight, topLeft);
+     
+     
+     glEnable(target);
+     glBindTexture(target, _name);
+     ofSetColor(255,255, 255, 255);
+     glPushMatrix();
+     
+     glBegin(GL_QUADS);{
+     glTexCoord2f(topLeft[0], topLeft[1]);  glVertex2f(0, 0);
+     glTexCoord2f(topRight[0], topRight[1]);     glVertex2f(1,0);
+     glTexCoord2f(bottomRight[0], bottomRight[1]);    glVertex2f(1,  1);
+     glTexCoord2f(bottomLeft[0], bottomLeft[1]); glVertex2f( 0, 1);
+     }glEnd();
+     
+     glPopMatrix();
+     
+     
+     glDisable(target);
+     
+     QTVisualContextTask(movieTextureContext);
+     }
+     
+     }
     //    bwShader->end();
     // deinterlace->end();
 }
@@ -454,26 +539,26 @@
             recordMovie = !recordMovie;
             
             if(!recordMovie){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    NSError * outError = nil;
-                    if(![mMovie writeToFile:@"~/Desktop/test.mov" withAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:QTMovieFlatten] error:&outError]){
-                        NSLog(@"Could not write %@",outError);
-                    }
-                    
-                });
-            }
+             dispatch_async(dispatch_get_main_queue(), ^{
+             
+             NSError * outError = nil;
+             if(![mMovie writeToFile:@"/Users/jonas/Desktop/test.mov" withAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:QTMovieFlatten] error:&outError]){
+             NSLog(@"Could not write %@",outError);
+             }
+             
+             });
+             }
             recordIndex = 0;
             if(outSelector == 4)
                 outSelector = 1;
             break;
         case 87:
             recordMovie = false;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"Play movie, time %lli",[mMovie duration].timeValue);
-                [mMovie gotoBeginning];
-                [mMovie play];
-            });
+               dispatch_async(dispatch_get_main_queue(), ^{
+             NSLog(@"Play movie, time %lli",[mMovie duration].timeValue);
+             [mMovie gotoBeginning];
+             [mMovie play];
+             });
             outSelector = 4;
             playbackIndex = 0;
             break;

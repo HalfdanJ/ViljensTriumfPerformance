@@ -3,56 +3,45 @@
 #import "BlackMagicController.h"
 
 #import "DeinterlaceFilter.h"
+#import "ChromaFilter.h"
+
 #import <QTKit/QTKit.h>
 
-#define MOVIE_LENGTH 7200
 
 class DeckLinkController;
 @interface BlackMagic : ofPlugin {
     BlackMagicController * blackMagicController;
-    
-//    ofVideoGrabber * grabber[3];
-    
+
     int outSelector;
     
-
     ofImage currentFrames[3];
     CIImage * currentCIImage[3];
-    ofImage movieRecording[MOVIE_LENGTH];
-    
-    int playbackIndex;
-    int millisAtLastFramePlayback;
     
     bool recordMovie;
     int millisAtLastFrameRecord;
-    int recordIndex;
+    
+    
     ofSerial serial;
     
     /*    ofxShader * bwShader;
-     ofxShader * deinterlace;
      */
-
-        
-    CIContext * ciContextMain; //Context for main output
-    CIContext * ciContextControl; //Context for control gl view
-    CIContext * ciContext; //Dynamic switched context (main/control)
     
-    CIImage * renderImage;
-    bool renderImageUpdated;
+    CIContext * ciContextMain; //Context for main output
+    CIContext * ciContextControl; //Context for main output
+    CIContext * ciContext; //Dynamic switched context (main/control)
 
     CIFilter * blurFilter;
     DeinterlaceFilter * deinterlaceFilter;
     CIFilter * colorControlsFilter;
     CIFilter * gammaAdjustFilter;
     CIFilter * toneCurveFilter;
+    ChromaFilter * chromaFilter;
     
     QTMovie *mMovie;
     QTVisualContextRef	movieTextureContext;
     CVOpenGLTextureRef  movieCurrentFrame;
     
     NSImage * recordImage;
-
-//    CIImage * movie[1000];
 
 }
 

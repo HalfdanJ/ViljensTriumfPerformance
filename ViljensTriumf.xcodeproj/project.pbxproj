@@ -28,6 +28,7 @@
 		DD4CC1EC161DEA13000E459D /* deinterlace.frag in Sources */ = {isa = PBXBuildFile; fileRef = DD4CC1E6161DEA13000E459D /* deinterlace.frag */; };
 		DD4CC1ED161DEA13000E459D /* deinterlace.vert in Sources */ = {isa = PBXBuildFile; fileRef = DD4CC1E7161DEA13000E459D /* deinterlace.vert */; };
 		DD4CC1EF161DF194000E459D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4CC1EE161DF194000E459D /* QuartzCore.framework */; };
+		DDB9D53C1624611000FFE6A4 /* ChromaFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB9D53B1624611000FFE6A4 /* ChromaFilter.m */; };
 		DDD38D511623464D00C24ABA /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDD38D501623464D00C24ABA /* QTKit.framework */; };
 		DDD38D5416234D9500C24ABA /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDD38D5316234D9500C24ABA /* Quartz.framework */; };
 		DDD38D5B16234E9400C24ABA /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDD38D5A16234E9400C24ABA /* QuickTime.framework */; };
@@ -81,6 +82,8 @@
 		DD4CC1E6161DEA13000E459D /* deinterlace.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = deinterlace.frag; path = shaders/deinterlace.frag; sourceTree = "<group>"; };
 		DD4CC1E7161DEA13000E459D /* deinterlace.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = deinterlace.vert; path = shaders/deinterlace.vert; sourceTree = "<group>"; };
 		DD4CC1EE161DF194000E459D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		DDB9D53A1624611000FFE6A4 /* ChromaFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChromaFilter.h; sourceTree = "<group>"; };
+		DDB9D53B1624611000FFE6A4 /* ChromaFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChromaFilter.m; sourceTree = "<group>"; };
 		DDD38D501623464D00C24ABA /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		DDD38D5316234D9500C24ABA /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		DDD38D5A16234E9400C24ABA /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
@@ -257,6 +260,8 @@
 				DDDCF660161EBC1700E8E368 /* deinterlaceFilter.cikernel */,
 				DDDCF65D161EBC0700E8E368 /* DeinterlaceFilter.h */,
 				DDDCF65E161EBC0700E8E368 /* DeinterlaceFilter.m */,
+				DDB9D53A1624611000FFE6A4 /* ChromaFilter.h */,
+				DDB9D53B1624611000FFE6A4 /* ChromaFilter.m */,
 			);
 			path = filters;
 			sourceTree = "<group>";
@@ -341,6 +346,7 @@
 				DD4CC1EC161DEA13000E459D /* deinterlace.frag in Sources */,
 				DD4CC1ED161DEA13000E459D /* deinterlace.vert in Sources */,
 				DDDCF65F161EBC0700E8E368 /* DeinterlaceFilter.m in Sources */,
+				DDB9D53C1624611000FFE6A4 /* ChromaFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 
 #import <QTKit/QTKit.h>
 
+#import "MavController.h"
 
 class DeckLinkController;
 @interface BlackMagic : ofPlugin {
@@ -21,7 +22,6 @@ class DeckLinkController;
     int millisAtLastFrameRecord;
     
     
-    ofSerial serial;
     
     /*    ofxShader * bwShader;
      */
@@ -42,6 +42,8 @@ class DeckLinkController;
     CVOpenGLTextureRef  movieCurrentFrame;
     
     NSImage * recordImage;
+    
+    MavController * mavController;
 
 }
 

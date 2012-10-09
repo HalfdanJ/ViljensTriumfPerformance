@@ -104,6 +104,8 @@
     }];
     
     
+    mavController = [[MavController alloc] init];
+    
 }
 
 //
@@ -112,7 +114,6 @@
 
 
 -(void)setup{
-    serial.setup("/dev/tty.usbserial-FT5CHURVA", 9600);
     glewInit();
     
     //
@@ -180,6 +181,8 @@
 
 
 -(void)update:(NSDictionary *)drawingInformation{
+    [mavController update];
+    
     //Set camera active flag
     for(int i=0;i<3;i++){
         DecklinkCallback * callback = [blackMagicController callbacks:i];

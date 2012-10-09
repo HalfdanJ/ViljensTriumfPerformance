@@ -26,7 +26,7 @@ class DeckLinkController;
     bool recordMovie;
     int millisAtLastFrameRecord;
     int recordIndex;
-    
+    ofSerial serial;
     
     /*    ofxShader * bwShader;
      ofxShader * deinterlace;

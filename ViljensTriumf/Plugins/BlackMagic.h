@@ -3,6 +3,7 @@
 #import "BlackMagicController.h"
 
 #import "DeinterlaceFilter.h"
+#import <QTKit/QTKit.h>
 
 #define MOVIE_LENGTH 7200
 
@@ -31,7 +32,7 @@ class DeckLinkController;
      ofxShader * deinterlace;
      */
 
-    
+        
     CIContext * ciContextMain; //Context for main output
     CIContext * ciContextControl; //Context for control gl view
     CIContext * ciContext; //Dynamic switched context (main/control)
@@ -44,6 +45,13 @@ class DeckLinkController;
     CIFilter * colorControlsFilter;
     CIFilter * gammaAdjustFilter;
     CIFilter * toneCurveFilter;
+    
+    QTMovie *mMovie;
+    QTVisualContextRef	movieTextureContext;
+    CVOpenGLTextureRef  movieCurrentFrame;
+
+
+
 }
 
 @end

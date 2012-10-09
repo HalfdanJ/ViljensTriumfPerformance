@@ -45,6 +45,10 @@
                 NSLog(@"This application was unable to obtain IDeckLinkInput for the selected device.");
             }
             
+            if ((deviceList[index]->QueryInterface(IID_IDeckLinkOutput, (void**)&deckLinkOutputs[index]) != S_OK))
+            {
+                NSLog(@"This application was unable to obtain IDeckLinkOutput for the selected device.");
+            }
             
             
             //
@@ -74,6 +78,9 @@
             
             deckLinkInputs[index]->SetCallback(callbacks[index]);
             
+            callbacks[index]->decklinkOutput = deckLinkOutputs[index];
+            
+            
             // Set the video input mode
             if (deckLinkInputs[index]->EnableVideoInput(modeList[2]->GetDisplayMode(), bmdFormat8BitYUV, videoInputFlags) != S_OK)
             {
@@ -81,6 +88,18 @@
                  return false;*/
                 NSLog(@"This application was unable to select the chosen video mode. Perhaps, the selected device is currently in-use.");
             }
+            
+            HRESULT				theResult;
+            // Turn on video output
+            theResult = deckLinkOutputs[index]->EnableVideoOutput(modeList[2]->GetDisplayMode(), bmdVideoOutputFlagDefault);
+            if (theResult != S_OK)
+                printf("EnableVideoOutput failed with result %08x\n", (unsigned int)theResult);
+            //
+            theResult = deckLinkOutputs[index]->StartScheduledPlayback(0, 600, 1.0);
+            if (theResult != S_OK)
+                printf("StartScheduledPlayback failed with result %08x\n", (unsigned int)theResult);
+            
+            
             
             // Start the capture
             if (deckLinkInputs[index]->StartStreams() != S_OK)

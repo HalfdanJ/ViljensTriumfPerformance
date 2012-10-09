@@ -249,18 +249,26 @@ HRESULT 	DecklinkCallback::VideoInputFrameArrived (/* in */ IDeckLinkVideoInputF
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     if(pthread_mutex_lock(&mutex) == 0){
 //        BMDPixelFormat pixelFormat = videoFrame->GetPixelFormat();
-        
+        BMDTimeValue		frameTime, frameDuration;
+		int					hours, minutes, seconds, frames;
+		HRESULT				theResult;
+		
+		videoFrame->GetStreamTime(&frameTime, &frameDuration, 600);
+		theResult = decklinkOutput->ScheduleVideoFrame(videoFrame, frameTime, frameDuration, 600);
+		//if (theResult != S_OK)
+		//	printf("Scheduling failed with error = %08x\n", (unsigned int)theResult);
+
         
         
         w = videoFrame->GetWidth();
         h = videoFrame->GetHeight();
-        size = w * h * 3;
+        size = w * h * 4;
         
         
         /* if(bytes){
          delete bytes;
          }*/
-        bytes = YuvToRgb(videoFrame);
+        bytes = YuvToArgb(videoFrame);
         // bwFrames(bytes,w*h);
         
         newFrame = true;

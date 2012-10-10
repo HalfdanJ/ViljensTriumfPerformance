@@ -25,6 +25,10 @@
     //    [self addPropF:@"blur"];
     [self addPropB:@"deinterlace"];
     
+    for(int i=0;i<NUM_SELECTORS;i++){
+        [[self addPropF:[NSString stringWithFormat:@"matrix%iSelector",i]] setMinValue:1 maxValue:16];
+    }
+    
     
     blackMagicController = [[BlackMagicController alloc] init];
     [blackMagicController initDecklink];
@@ -106,6 +110,41 @@
     
     mavController = [[MavController alloc] init];
     
+}
+
+//
+//----------------
+//
+
+
+-(void)awakeFromNib{
+    [super awakeFromNib];
+    
+    int x = 100; //possition x
+    int y = 100; //possition y
+    
+    int width = 130;
+    int height = 40;
+                                
+    for(int i=0;i<NUM_SELECTORS;i++){
+        NSTextField * selectorLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(0,y, width,30)];
+        [self.view addSubview: selectorLabel];
+        selectorLabel.stringValue = [NSString stringWithFormat:@"%i",i];
+        selectorLabel.drawsBackground = NO;
+        [selectorLabel setBezeled:NO];
+        [selectorLabel setEditable:NO];
+
+        
+        for(int u=0;u<16;u++){
+            NSButton *myButton = [[[NSButton alloc] initWithFrame:NSMakeRect(u*43+80, y, 52, height)] autorelease];
+            [self.view addSubview: myButton];
+            [myButton setTitle: [NSString stringWithFormat:@"#%i",u+1]];
+            [myButton setButtonType:NSMomentaryLightButton]; //Set what type button You want
+            [myButton setBezelStyle:NSRoundedBezelStyle]; //Set what style You want
+        }
+        
+        y += height;
+    }
 }
 
 //

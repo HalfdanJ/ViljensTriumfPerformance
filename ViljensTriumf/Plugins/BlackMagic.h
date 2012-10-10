@@ -9,6 +9,8 @@
 
 #import "MavController.h"
 
+#define NUM_SELECTORS 3
+
 class DeckLinkController;
 @interface BlackMagic : ofPlugin {
     BlackMagicController * blackMagicController;

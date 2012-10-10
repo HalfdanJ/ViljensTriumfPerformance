@@ -14,31 +14,41 @@
 {
     self = [super init];
     if (self) {
-        serial.setup("/dev/tty.usbserial-FT5CHURVA", 9600);
-
+        connected=  serial.setup("/dev/tty.usbserial-FT5CHURVA", 9600);
+        
     }
     return self;
 }
 
 -(void) update {
-    while(serial.available()){
-        incommingBytes[incommingBytesIndex++] = serial.readByte();
-        if(incommingBytes[incommingBytesIndex-1] == '\n'){
-            incommingBytesIndex = 0;
-            NSLog(@"Got msg");
-            int cmp = strcmp(incommingBytes, "RECONFIG");
-            NSLog(@"%i",cmp);
-            if(cmp > 0){
-                NSLog(@"Reconfig");
+    if(connected	){
+        while(serial.available()){
+            incommingBytes[incommingBytesIndex++] = serial.readByte();
+            if(incommingBytes[incommingBytesIndex-1] == '\n'){
+                incommingBytesIndex = 0;
+                NSString * incommingStr = [NSString stringWithUTF8String:incommingBytes];
+                NSLog(@"Got msg: %@",incommingStr);
                 
-                serial.writeByte('v');
-                serial.writeByte('1');
-                serial.writeByte('%');
-            } else {
-                NSLog(@"%s",incommingBytes);
+                if([incommingStr rangeOfString:@"RECONFIG"].location != NSNotFound){
+                    NSLog(@"Reconfig");
+                    
+                    serial.writeByte('v');
+                    serial.writeByte('1');
+                    serial.writeByte('%');
+                }  else {
+                    NSError *error = NULL;
+                    NSRegularExpression *regex = [NSRegularExpression
+                                                  regularExpressionWithPattern:@"OUT+%i+%i IN+%i+%i VID"
+                                                  options:NSRegularExpressionCaseInsensitive
+                                                  error:&error];
+                    [regex enumerateMatchesInString:incommingStr options:0 range:NSMakeRange(0, [incommingStr length]) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop){
+                        // your code to handle matches here
+                        NSLog(@"Match %@",match);
+                    }];
+                }
+                
+                memset(incommingBytes,0,sizeof(incommingBytes));
             }
-            
-            memset(incommingBytes,0,sizeof(incommingBytes));
         }
     }
 }

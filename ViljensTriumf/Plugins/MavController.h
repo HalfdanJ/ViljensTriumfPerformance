@@ -11,10 +11,12 @@
 @interface MavController : NSObject
 {
     ofSerial serial;
-    
+    bool connected;
     
     char incommingBytes[100];
     int incommingBytesIndex;
+    
+    NSMutableArray * outputs;
 }
 
 -(void) update;
